@@ -1,5 +1,7 @@
 # Create the datacity cluster
 
+## Prerequisites
+
 All infra created in Google project: `datacity-k8s`
 
 Use the Google Kubernetes Engine web-ui to create a Kubernetes cluster
@@ -37,17 +39,6 @@ systemctl restart nfs-kernel-server
 * Create a test directory and file: `mkdir /exports/test && echo hello world > /exports/test/test.txt`
 * Try to mount using the external IP from external host - to ensure it doesn't work
 
-Start a [ckan-cloud-operator](https://github.com/hasadna/ckan-cloud-operator) working environment
-
-Build and run the docker image from a clone of hasadna/ckan-cloud-operator
-
-```
-cd ckan-cloud-operator
-docker build -t hasadna/ckan-cloud-operator -f Dockerfile.gcloud .
-docker run -it -v $PWD:/cco -v $PWD/.cco:/root/ -v $PWD/../datacity-k8s:/datacity-k8s hasadna/ckan-cloud-operator
-pip install -e .
-```
-
 Create a Google Cloud service account
 
 * IAM > Service accounts > Create service account
@@ -56,9 +47,9 @@ Create a Google Cloud service account
 * Role: Project Viewer
 * Role: Compute Admin
 * Create JSON Key
-* Save to ckan-cloud-operator/.cco/
+* Save it securely
 
-Authenticate with Gcloud and connect to the cluster with the admin account (not the service account)
+Authenticate with Gcloud and connect to the cluster with your admin account (not the service account)
 
 ```
 gcloud auth login
@@ -74,22 +65,9 @@ kubectl create clusterrolebinding cc-cluster-admin-binding \
   --user SERVICE_ACCOUNT_EMAIL
 ```
 
-Login as the service account
-
-```
-gcloud auth activate-service-account --key-file=/root/service_account_key.json
-gcloud container clusters get-credentials datacity --zone europe-west1-d
-```
-
 Add the cluster to Rancher - follow instructions in Rancher's UI
 
-Enable bash completion
-
-```
-eval "$(ckan-cloud-operator bash-completion)"
-```
-
-Interactively initialize the ckan-cloud cluster
+## Initialize ckan-cloud-operator
 
 ```
 ckan-cloud-operator cluster initialize --interactive --cluster-provider=gcloud
@@ -119,25 +97,3 @@ ckan-cloud-operator cluster initialize --interactive --cluster-provider=gcloud
 * sc suffixes: `sc-7`
 * zk suffixes: `zk-4`
 * replication-factor: `1`
-
-Create a CKAN instance
-
-```
-INSTANCE_NAME=demo
-```
-
-Non-secret instance values files are stored in this repository under `instances/$INSTANCE_NAME/values.yaml`
-
-Secret instance values are store inside the ckan-cloud-operator container under `/root/instances/$INSTANCE_NAME/secret_values.yaml`
-
-Combine the non secret and secret values
-
-```
-cat /datacity-k8s/instances/$INSTANCE_NAME/values.yaml /root/instances/$INSTANCE_NAME/secret_values.yaml > /root/instances/$INSTANCE_NAME/values.yaml
-```
-
-Create the instance custom resource
-
-```
-ckan-cloud-operator ckan instance create helm --instance-name "${INSTANCE_NAME}" /root/instances/$INSTANCE_NAME/values.yaml
-```
