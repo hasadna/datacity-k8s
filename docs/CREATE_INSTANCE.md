@@ -9,15 +9,11 @@ Using Google Cloud Console, create a storage bucket for the instance:
 * Storage Class: standard
 * Permissions: fine-grained
 
-Create a service account to access the bucket:
+Create a service account and HMAC key
 
-* name: `datacity-INSTANCE_NAME-storage`
-* No roles
-
-Create an HMAC key for the service account:
-
-* Cloud storage > Settings > Interoperability
-* Create HMAC key for service account
+* Cloud storage > Settings > Interoperability > Create a key for another service account
+* Create new account, name: `datacity-storage-INSTANCE_NAME` (no roles)
+* Keep the access key / secret
 
 Give the service account permissions for the bucket
 
@@ -54,7 +50,7 @@ Create the instance custom resource
 ```
 ckan-cloud-operator ckan instance create helm \
     --instance-name "${INSTANCE_NAME}" \
-    /root/instances/$INSTANCE_NAME/values.yaml
+    /datacity-k8s/instances/$INSTANCE_NAME/values.yaml
 ```
 
 See UPDATE_INSTANCE.md to continue deployment

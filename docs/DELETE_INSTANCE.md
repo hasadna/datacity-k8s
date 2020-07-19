@@ -33,6 +33,7 @@ Delete additional resources
 
 ```
 kubectl -n ckan-cloud delete secret ckan-instance-$INSTANCE_NAME
+kubectl -n ckan-cloud delete ckancloudckaninstancename ckan-cloud-ckaninstancename-${INSTANCE_NAME}
 ```
 
 Delete the Google Storage bucket

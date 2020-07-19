@@ -13,13 +13,13 @@ useCloudStorage: false
 
 #forceKeepSiteUrl: true
 #siteUrl: https://maale-adummim.odata.org.il
-
+ 
 ### App versions ###
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
 ckanHelmChartVersion: 0.0.0-a98a4e8aef3037c1c9bf18bb9794e94e0e87e667
-ckanImage: "datacity/ckan:11a09699cb7864b0df09664e655874902717dddd"
-ckanOperatorImage: "datacity/cca-operator:11a09699cb7864b0df09664e655874902717dddd"
+ckanImage: "datacity/ckan:9755c546ae968f104d14181385a9924e4ebeeb17"
+ckanOperatorImage: "datacity/cca-operator:9755c546ae968f104d14181385a9924e4ebeeb17"
 
 ### Infrastructure / Resources ###
 

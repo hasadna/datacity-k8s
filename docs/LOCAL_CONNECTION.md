@@ -24,13 +24,10 @@ export CCO_DIR=/path/to/secret/cco
 Build and run the operator (run it from within one of the repos)
 
 ```
-docker build -t hasadna/ckan-cloud-operator \
-             -f ../ckan-cloud-operator/Dockerfile.gcloud \
-             ../ckan-cloud-operator &&\
-docker run -it -v "$(pwd)/../ckan-cloud-operator:/cco" \
-               -v "${CCO_DIR}:/root/" \
+docker pull datacity/ckan-cloud-operator &&\
+docker run -it -v "${CCO_DIR}:/root/" \
                -v "$(pwd)/../datacity-k8s:/datacity-k8s" \
-               hasadna/ckan-cloud-operator
+               datacity/ckan-cloud-operator
 ```
 
 Following should run only once, every time you have a new cco secret path
@@ -47,4 +44,16 @@ Run the following each time you start a new ckan-cloud-operator shell:
 ```
 pip install -e .
 eval "$(ckan-cloud-operator bash-completion)"
+```
+
+## Running the operator for development
+
+```
+docker build -t datacity/ckan-cloud-operator \
+             -f ../ckan-cloud-operator/Dockerfile.gcloud \
+             ../ckan-cloud-operator &&\
+docker run -it -v "$(pwd)/../ckan-cloud-operator:/cco" \
+               -v "${CCO_DIR}:/root/" \
+               -v "$(pwd)/../datacity-k8s:/datacity-k8s" \
+               datacity/ckan-cloud-operator
 ```
