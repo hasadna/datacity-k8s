@@ -11,6 +11,9 @@ usePersistentVolumes: true
 withSansSSL: true
 useCloudStorage: false
 
+forceKeepSiteUrl: true
+siteUrl: https://datacity-demo.uumpa.xyz
+
 ### App versions ###
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
@@ -44,7 +47,6 @@ favIcon: /base/images/ckan.ico
 siteDescription: Hasadna Datacity Demo
 siteLogo: /base/images/ckan-logo.png
 siteTitle: Hasadna Datacity Demo
-#siteUrl: https://ckan-cloud-a-ckan-instance.ckan-aws-testing.gq
 
 operatorCopySecrets: '{"ckan-instance":{"fromName":"ckan-instance-__INSTANCE_NAME__"}}'
 
