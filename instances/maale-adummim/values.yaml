@@ -33,7 +33,7 @@ ingresses:
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
 ckanHelmChartVersion: 0.0.0-881cee9c8eb91e3f411351bfe4e382868c275a9a
-ckanImage: "datacity/ckan:9755c546ae968f104d14181385a9924e4ebeeb17"
+ckanImage: "datacity/ckan:173fd3d47553ca274d60820f1f9b3817c55ab723"
 ckanOperatorImage: "datacity/cca-operator:9755c546ae968f104d14181385a9924e4ebeeb17"
 
 ### Infrastructure / Resources ###
