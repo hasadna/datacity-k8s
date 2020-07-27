@@ -15,24 +15,25 @@ skipCreateCkanAdmin: true
 ### Routing configuration ###
 
 skipRoute: true
-siteUrl: https://maale-adummim.datacity.org.il
+siteUrl: https://test.datacity.org.il
 ingresses:
-  - name: maale-adummim-datacity-org-il
+  - name: test-datacity-org-il
     ckanService: true
     # maxBodySize: "1000M"
     extraConfig: |
       cert-manager.io/cluster-issuer: letsencrypt
     tls: true
     rules:
-      - host: maale-adummim.datacity.org.il
+      - host: test.datacity.org.il
         # serviceName:
         # servicePort:
-
 
 ### App versions ###
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
 ckanHelmChartVersion: 0.0.0-9f9ec66e264e5e8c91f49cf9e47696be787a7453
+#ckanHelmChartRepo: file
+#ckanHelmChartVersion: /ckan-cloud-helm/ckan
 ckanImage: "datacity/ckan:9755c546ae968f104d14181385a9924e4ebeeb17"
 ckanOperatorImage: "datacity/cca-operator:9755c546ae968f104d14181385a9924e4ebeeb17"
 
@@ -41,11 +42,12 @@ ckanOperatorImage: "datacity/cca-operator:9755c546ae968f104d14181385a9924e4ebeeb
 ckanPodReplaceStrategy: Recreate
 replicas: 1
 nginxReplicas: 1
-ckanGunicornWorkers: 2
-ckanResources: '{"requests": {"cpu": "0.2", "memory": "400Mi"}, "limits": {"memory": "2Gi"}}'
+# reduced resources - for testing only
+ckanGunicornWorkers: 1
+ckanResources: '{"requests": {"cpu": "0.05", "memory": "400Mi"}, "limits": {"memory": "2Gi"}}'
 nginxResources: '{"requests": {"cpu": "0.05", "memory": "300Mi"}, "limits": {"memory": "800Mi"}}'
 ckanJobsDbResources: '{"requests": {"cpu": "0.02", "memory": "50Mi"}, "limits": {"memory": "200Mi"}}'
-ckanJobsResources: '{"requests": {"cpu": "0.1", "memory": "400Mi"}, "limits": {"memory": "1500Mi"}}'
+ckanJobsResources: '{"requests": {"cpu": "0.05", "memory": "400Mi"}, "limits": {"memory": "1500Mi"}}'
 redisResources: '{"requests": {"cpu": "0.05", "memory": "100Mi"}, "limits": {"memory": "300Mi"}}'
 ckanLivenessPeriodSeconds: 300
 ckanJobsDbTerminationGracePeriodSeconds: 30
@@ -59,9 +61,9 @@ ckanPlugins: stats text_view image_view recline_view datastore xloader resource_
 ckanDefaultViews: image_view text_view recline_view geojson_view
 displayTimezone: Asia/Jerusalem
 favIcon: /base/images/ckan.ico
-siteDescription: "פורטל מידע - עיריית מעלה אדומים"
+siteDescription: "פורטל מידע - בדיקה"
 siteLogo: /base/images/ckan-logo.png
-siteTitle: "פורטל מידע - עיריית מעלה אדומים"
+siteTitle: "פורטל מידע - בדיקה"
 
 operatorCopySecrets: '{"ckan-instance":{"fromName":"ckan-instance-__INSTANCE_NAME__"}}'
 

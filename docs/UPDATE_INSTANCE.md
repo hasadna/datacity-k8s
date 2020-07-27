@@ -20,43 +20,8 @@ ckan-cloud-operator ckan instance update $INSTANCE_NAME \
 
 ## Add an external domain to the instance
 
-```
-export INSTANCE_NAME=demo
-```
+Set a DNS CNAME from the external domain to `INSTANCE_NAME.datacity.org.il`
 
-Get the instance ID
-
-```
-INSTANCE_ID="$(ckan-cloud-operator ckan instance get ${INSTANCE_NAME} | grep '^id: ' | cut -d" " -f2)"
-```
-
-Get the frontend hostname
-
-```
-ckan-cloud-operator routers get-routes --ckan-instance-id $INSTANCE_ID
-```
-
-Set a CNAME from the external domain to the frontend hostname
-
-Edit the route
-
-```
-ROUTE_ID="$(kubectl -n ckan-cloud get ckancloudroute -l ckan-cloud/route-ckan-instance-id=$INSTANCE_ID '-o=jsonpath={.items[0].spec.name}')"
-kubectl -n ckan-cloud edit ckancloudroute $ROUTE_ID
-```
-
-Add the following to the spec:
-
-```
-extra-external-domains:
-- the.external.domain
-```
-
-Edit the instance values (`instances/INSTANCE_NAME/values.yaml`), set:
-
-```
-forceKeepSiteUrl: true
-siteUrl: https://the.external.domain 
-``` 
+Edit the values and add an ingress rule for this domain
 
 Update the instance

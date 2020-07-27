@@ -57,3 +57,20 @@ docker run -it -v "$(pwd)/../ckan-cloud-operator:/cco" \
                -v "$(pwd)/../datacity-k8s:/datacity-k8s" \
                datacity/ckan-cloud-operator
 ```
+
+## Testing helm chart changes
+
+Clone the ckan-cloud-helm repo
+
+Set the chart in the relevant site's values:
+
+```
+ckanHelmChartRepo: file
+ckanHelmChartVersion: /ckan-cloud-helm/ckan
+```
+
+Mount ckan-cloud-helm into the operator container:
+
+```
+-v "$(pwd)/../ckan-cloud-helm:/ckan-cloud-helm"
+```

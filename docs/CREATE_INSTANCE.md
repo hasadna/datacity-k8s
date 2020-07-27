@@ -31,6 +31,10 @@ kubectl -n ckan-cloud create secret generic ckan-instance-INSTANCE_NAME \
     --from-literal S3_FILESTORE_AWS_REGION_NAME=
 ```
 
+## Set DNS
+
+Create a DNS CNAME rule `INSTANCE_NAME.datacity.org.il` to `cluster-ingress.datacity.org.il` 
+
 ## Prepare the instance values
 
 Instance values are stored in this repository under `instances/INSTANCE_NAME/values.yaml`
