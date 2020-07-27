@@ -31,7 +31,7 @@ ingresses:
 ### App versions ###
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
-ckanHelmChartVersion: 0.0.0-9f9ec66e264e5e8c91f49cf9e47696be787a7453
+ckanHelmChartVersion: 0.0.0-881cee9c8eb91e3f411351bfe4e382868c275a9a
 #ckanHelmChartRepo: file
 #ckanHelmChartVersion: /ckan-cloud-helm/ckan
 ckanImage: "datacity/ckan:9755c546ae968f104d14181385a9924e4ebeeb17"
