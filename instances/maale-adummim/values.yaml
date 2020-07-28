@@ -38,8 +38,8 @@ ckanOperatorImage: "datacity/cca-operator:9755c546ae968f104d14181385a9924e4ebeeb
 
 ### Infrastructure / Resources ###
 
-ckanPodReplaceStrategy: Recreate
-replicas: 1
+# ckanPodReplaceStrategy: Recreate
+replicas: 2
 nginxReplicas: 1
 ckanGunicornWorkers: 2
 ckanResources: '{"requests": {"cpu": "0.2", "memory": "400Mi"}, "limits": {"memory": "2Gi"}}'
@@ -55,7 +55,7 @@ terminationGracePeriodSeconds: 30
 
 ### Core CKAN settings ###
 
-ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view
+ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view datacity scheming_datasets
 ckanDefaultViews: image_view text_view recline_view geojson_view
 displayTimezone: Asia/Jerusalem
 favIcon: /base/images/ckan.ico
@@ -91,9 +91,9 @@ extraJobsContainerEnvs: |
 
 extraCkanConfig: |
   ckan.locale_default = he
-  ckan.locale_order = en pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi ru de pl nl bg ko_KR hu sa sl lv
-  ckan.locales_offered = he ar en
-  ckan.locales_filtered_out = en_GB
+  ckan.locale_order = he en_US ar
+  ckan.locales_offered = he en_US ar
+  ckan.locales_filtered_out =
   ckanext.s3filestore.host_name = {{S3_FILESTORE_AWS_HOST_NAME}}
   ckanext.s3filestore.aws_access_key_id = {{S3_FILESTORE_AWS_ACCESS_KEY_ID}}
   ckanext.s3filestore.aws_secret_access_key = {{S3_FILESTORE_AWS_SECRET_ACCESS_KEY}}
@@ -102,6 +102,7 @@ extraCkanConfig: |
   ckanext.s3filestore.signature_version = s3v4
   ckanext.s3filestore.check_access_on_startup = false
   ckanext.s3filestore.create_if_not_exists = false
+  scheming.dataset_schemas = ckanext.datacity:scheming-dataset.json
 
 ### CKAN auth settings ###
 
