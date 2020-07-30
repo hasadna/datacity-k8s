@@ -44,14 +44,14 @@ ckanOperatorImage: "datacity/cca-operator:9755c546ae968f104d14181385a9924e4ebeeb
 ### Infrastructure / Resources ###
 
 # ckanPodReplaceStrategy: Recreate
-replicas: 2
+replicas: 1
 nginxReplicas: 1
-ckanGunicornWorkers: 2
-ckanResources: '{"requests": {"cpu": "0.2", "memory": "400Mi"}, "limits": {"memory": "2Gi"}}'
+ckanGunicornWorkers: 4
+ckanResources: '{"requests": {"cpu": "0.2", "memory": "800Mi"}, "limits": {"memory": "2Gi"}}'
 nginxResources: '{"requests": {"cpu": "0.05", "memory": "300Mi"}, "limits": {"memory": "800Mi"}}'
 ckanJobsDbResources: '{"requests": {"cpu": "0.02", "memory": "50Mi"}, "limits": {"memory": "200Mi"}}'
-ckanJobsResources: '{"requests": {"cpu": "0.1", "memory": "400Mi"}, "limits": {"memory": "1500Mi"}}'
-redisResources: '{"requests": {"cpu": "0.05", "memory": "100Mi"}, "limits": {"memory": "300Mi"}}'
+ckanJobsResources: '{"requests": {"cpu": "0.05", "memory": "400Mi"}, "limits": {"memory": "1500Mi"}}'
+redisResources: '{"requests": {"cpu": "0.02", "memory": "50Mi"}, "limits": {"memory": "200Mi"}}'
 ckanLivenessPeriodSeconds: 300
 ckanJobsDbTerminationGracePeriodSeconds: 30
 ckanJobsTerminationGracePeriodSeconds: 30
@@ -68,7 +68,7 @@ siteDescription: "פורטל מידע - עיריית מעלה אדומים"
 siteLogo: /base/images/ckan-logo.png
 siteTitle: "פורטל מידע - עיריית מעלה אדומים"
 
-operatorCopySecrets: '{"ckan-instance":{"fromName":"ckan-instance-__INSTANCE_NAME__"}}'
+operatorCopySecrets: '{"ckan-instance":{"fromName":"ckan-instance-__INSTANCE_NAME__"},"ckan-smtp":{"fromName":"datacity-ckan-smtp"}}'
 
 extraCkanContainerEnvs: |
   - name: S3_FILESTORE_AWS_HOST_NAME
@@ -81,6 +81,16 @@ extraCkanContainerEnvs: |
     valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_BUCKET_NAME"}}
   - name: S3_FILESTORE_AWS_REGION_NAME
     valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_REGION_NAME"}}
+  - name: SMTP_MAIL_FROM
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_MAIL_FROM"}}
+  - name: SMTP_PASSWORD
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_PASSWORD"}}
+  - name: SMTP_SERVER
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_SERVER"}}
+  - name: SMTP_STARTTLS
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_STARTTLS"}}
+  - name: SMTP_USER
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_USER"}}
 
 extraJobsContainerEnvs: |
   - name: S3_FILESTORE_AWS_HOST_NAME
@@ -93,6 +103,16 @@ extraJobsContainerEnvs: |
     valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_BUCKET_NAME"}}
   - name: S3_FILESTORE_AWS_REGION_NAME
     valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_REGION_NAME"}}
+  - name: SMTP_MAIL_FROM
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_MAIL_FROM"}}
+  - name: SMTP_PASSWORD
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_PASSWORD"}}
+  - name: SMTP_SERVER
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_SERVER"}}
+  - name: SMTP_STARTTLS
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_STARTTLS"}}
+  - name: SMTP_USER
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_USER"}}
 
 extraCkanConfig: |
   ckan.locale_default = he
