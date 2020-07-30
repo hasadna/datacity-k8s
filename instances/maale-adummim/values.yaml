@@ -66,7 +66,10 @@ displayTimezone: Asia/Jerusalem
 favIcon: /base/images/ckan.ico
 siteDescription: "פורטל מידע - עיריית מעלה אדומים"
 siteLogo: /base/images/ckan-logo.png
-siteTitle: "פורטל מידע - עיריית מעלה אדומים"
+
+# siteTitle must be in english to support emails
+# the ckanext-datacity extension allows setting site title for hebrew and the other languages
+siteTitle: "Maale Adummim Data Portal"
 
 operatorCopySecrets: '{"ckan-instance":{"fromName":"ckan-instance-__INSTANCE_NAME__"},"ckan-smtp":{"fromName":"datacity-ckan-smtp"}}'
 
