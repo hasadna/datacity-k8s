@@ -28,6 +28,9 @@ ingresses:
         # serviceName:
         # servicePort:
 
+### CronJobs ###
+
+enableCronJob_PageViewsTracking: true
 
 ### App versions ###
 
@@ -96,6 +99,7 @@ extraCkanConfig: |
   ckan.locale_order = he en_US ar
   ckan.locales_offered = he en_US ar
   ckan.locales_filtered_out =
+  ckan.tracking_enabled = true
   ckanext.s3filestore.host_name = {{S3_FILESTORE_AWS_HOST_NAME}}
   ckanext.s3filestore.aws_access_key_id = {{S3_FILESTORE_AWS_ACCESS_KEY_ID}}
   ckanext.s3filestore.aws_secret_access_key = {{S3_FILESTORE_AWS_SECRET_ACCESS_KEY}}
