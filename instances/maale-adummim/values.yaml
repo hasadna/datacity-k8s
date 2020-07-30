@@ -31,9 +31,11 @@ ingresses:
 
 ### App versions ###
 
+updateInstanceOnImageTagChange: true
+ckanImage: "datacity/ckan:latest"
+
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
 ckanHelmChartVersion: 0.0.0-881cee9c8eb91e3f411351bfe4e382868c275a9a
-ckanImage: "datacity/ckan:4281aef356e8fdc79b5d6b10ec57860aa2f9a86a"
 ckanOperatorImage: "datacity/cca-operator:9755c546ae968f104d14181385a9924e4ebeeb17"
 
 ### Infrastructure / Resources ###
@@ -55,7 +57,7 @@ terminationGracePeriodSeconds: 30
 
 ### Core CKAN settings ###
 
-ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view datacity scheming_datasets
+ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view datacity scheming_datasets scheming_groups pages
 ckanDefaultViews: image_view text_view recline_view geojson_view
 displayTimezone: Asia/Jerusalem
 favIcon: /base/images/ckan.ico
@@ -103,6 +105,8 @@ extraCkanConfig: |
   ckanext.s3filestore.check_access_on_startup = false
   ckanext.s3filestore.create_if_not_exists = false
   scheming.dataset_schemas = ckanext.datacity:scheming-dataset.json
+  scheming.group_schemas = ckanext.datacity:scheming-group-settings.json
+  datacity.settings_group_id = settings
 
 ### CKAN auth settings ###
 

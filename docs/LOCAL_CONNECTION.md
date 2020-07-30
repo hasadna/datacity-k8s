@@ -39,13 +39,6 @@ gcloud container clusters get-credentials datacity --zone europe-west1-d
 helm init -c
 ```
 
-Run the following each time you start a new ckan-cloud-operator shell:
-
-```
-pip install -e .
-eval "$(ckan-cloud-operator bash-completion)"
-```
-
 ## Running the operator for development
 
 ```
@@ -57,6 +50,14 @@ docker run -it -v "$(pwd)/../ckan-cloud-operator:/cco" \
                -v "$(pwd)/../datacity-k8s:/datacity-k8s" \
                datacity/ckan-cloud-operator
 ```
+
+Inside the operator shell:
+
+```
+pip install -e .
+eval "$(ckan-cloud-operator bash-completion)"
+```
+
 
 ## Testing helm chart changes
 

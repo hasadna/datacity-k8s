@@ -15,6 +15,7 @@ Update values and deploy
 ```
 ckan-cloud-operator ckan instance update $INSTANCE_NAME \
     --override-spec-file /datacity-k8s/instances/$INSTANCE_NAME/values.yaml \
+    --ckan-cloud-docker-latest-tag $(cat /datacity-k8s/instances/ckan-cloud-docker-latest-tag.txt) \
     --persist-overrides --wait-ready
 ```
 

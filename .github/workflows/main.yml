@@ -13,15 +13,14 @@ jobs:
       run: |
         if [ "${GITHUB_REF}" == "refs/heads/master" ]; then
           LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s") &&\
-          if echo "${LAST_COMMIT_MSG}" | grep -- --update-instances; then
-            GOT_UPDATE_INSTANCES=0
-            for WORD in $LAST_COMMIT_MSG; do
-              if [ "${GOT_UPDATE_INSTANCES}" == "1" ]; then
-                echo updating instance $WORD &&\
-                curl --user "${JENKINS_USER}:${JENKINS_TOKEN}" -X POST "${JENKINS_UPDATE_INSTANCE_URL}?INSTANCE_NAME=$WORD"
-              elif [ "${WORD}" == "--update-instances" ]; then
-                GOT_UPDATE_INSTANCES=1
-              fi
-            done
-          fi
+          cd instances &&\
+          for INSTANCE_NAME in `ls --hide *.txt`; do
+            if echo "${LAST_COMMIT_MSG}" | grep -- --update-instances >/dev/null && echo "${LAST_COMMIT_MSG}" | grep $INSTANCE_NAME >/dev/null; then
+              echo "updating instance: $INSTANCE_NAME (requested manually using --update-instances)" &&\
+              curl --user "${JENKINS_USER}:${JENKINS_TOKEN}" -X POST "${JENKINS_UPDATE_INSTANCE_URL}?INSTANCE_NAME=${INSTANCE_NAME}"
+            elif echo "${LAST_COMMIT_MSG}" | grep "automatic update of ckan-cloud-docker" > /dev/null && cat ${INSTANCE_NAME}/values.yaml | grep 'updateInstanceOnImageTagChange: true' > /dev/null; then
+              echo "updating instance: $INSTANCE_NAME (auto-update)" &&\
+              curl --user "${JENKINS_USER}:${JENKINS_TOKEN}" -X POST "${JENKINS_UPDATE_INSTANCE_URL}?INSTANCE_NAME=${INSTANCE_NAME}"
+            fi
+          done
         fi
