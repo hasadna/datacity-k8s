@@ -20,17 +20,6 @@ Give the service account permissions for the bucket
 * Cloud Storage > Bucket > Permissions
 * Add the service account with Storage Object Admin role
 
-Create a secret with the bucket values:
-
-```
-kubectl -n ckan-cloud create secret generic ckan-instance-INSTANCE_NAME \
-    --from-literal S3_FILESTORE_AWS_HOST_NAME= \
-    --from-literal S3_FILESTORE_AWS_ACCESS_KEY_ID= \
-    --from-literal S3_FILESTORE_AWS_SECRET_ACCESS_KEY= \
-    --from-literal S3_FILESTORE_AWS_BUCKET_NAME= \
-    --from-literal S3_FILESTORE_AWS_REGION_NAME=
-```
-
 ## Set DNS
 
 Create a DNS CNAME rule `INSTANCE_NAME.datacity.org.il` to `cluster-ingress.datacity.org.il` 
@@ -41,20 +30,12 @@ Instance values are stored in this repository under `instances/INSTANCE_NAME/val
 
 You can copy values from another instances and modify as needed
 
+Commit the new instance values
+
 ## Create instance
 
-Set instance name in env var
+Run the Jenkins job `create-instance`
 
-```
-INSTANCE_NAME=demo
-```
-
-Create the instance custom resource
-
-```
-ckan-cloud-operator ckan instance create helm \
-    --instance-name "${INSTANCE_NAME}" \
-    /datacity-k8s/instances/$INSTANCE_NAME/values.yaml
-```
+## Update instance
 
 See UPDATE_INSTANCE.md to continue deployment
