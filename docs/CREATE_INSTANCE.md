@@ -44,4 +44,48 @@ Run the Jenkins job `create-instance`
 
 ## Update instance
 
-See UPDATE_INSTANCE.md to continue deployment
+See UPDATE_INSTANCE.md to deploy
+
+## Create an admin user
+
+Run the jenkins job `set-sysadmin` and create a user named `admin`, email can be `admin@localhost`
+
+## Initialize instance
+
+Login as the admin user to the instance and get the api key
+
+Edit secret in hasadna cluster - namespace: `datacity`, secret name: `ckan-dgp-instances`
+
+Add the following values (replace `NAME` with the instance name in upper-case with dashes converted to underscores):
+
+* `CKAN_INSTANCE_NAME_URL` - the instance url `https://NAME.datacity.org.il`
+* `CKAN_INSTANCE_NAME_API_KEY` - the admin user api key
+
+Redeploy the ckan dgp server in hasadna cluster - namespace: `datacity`, deployment: `ckan-dgp`
+
+Login to the ckan dgp server - https://ckan-dgp.datacity.org.il/
+
+Create new processing tasks (replace NAME with the instance name):
+
+* name: CITY NAME - initialize
+  * Kind: initialize datacity ckan instances
+  * ckan instance: NAME
+  * main organization title: עיריית שם העיר
+  * names of the municipality: write as many differently spelled names of the municipality
+  * schedule: daily
+  * visibility: public
+  * View Status > Trigger Task
+* name: CITY NAME - xlsx processing
+  * Kind: continous processing tasks for datacity ckan instances
+  * ckan instance: NAME
+  * processing task to run: xlsx
+  * schedule: daily
+  * visibility: public
+  * View Status > Trigger Task
+* name: CITY NAME - geojson processing
+  * Kind: continous processing tasks for datacity ckan instances
+  * ckan instance: NAME
+  * processing task to run: geojson
+  * schedule: daily
+  * visibility: public
+  * View Status > Trigger Task

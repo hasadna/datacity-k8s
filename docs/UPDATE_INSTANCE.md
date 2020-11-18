@@ -8,9 +8,19 @@ Edit and update any instance values you want to change in instances/INSTANCE_NAM
 
 Commit the modified values
 
+## Monitor cluster
+
+Open Google Cloud Console Monitoring dashboard `datacity-k8s > datacity cluster`
+
+Open Rancher or Lens connected to the cluster
+
+While deploying check the cpu/ram usage and deployment progress to ensure the instance does not overload the cluster 
+
 ## Deploy / update existing instance
 
 Run the Jenkins job `update-instance`
+
+If the job failed, try to re-run a couple of time before panicking
 
 ## Add an external domain to the instance
 
