@@ -20,6 +20,12 @@ Give the service account permissions for the bucket
 * Cloud Storage > Bucket > Permissions
 * Add the service account with Storage Object Admin role
 
+Set CORS on the bucket
+
+```
+gsutil cors set instances/cors-config.json gs://datacity-INSTANCE_NAME
+``` 
+
 ## Set DNS
 
 Create a DNS CNAME rule `INSTANCE_NAME.datacity.org.il` to `cluster-ingress.datacity.org.il` 
