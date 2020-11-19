@@ -72,7 +72,7 @@ Create new processing tasks (replace NAME with the instance name):
   * ckan instance: NAME
   * main organization title: עיריית שם העיר
   * names of the municipality: write as many differently spelled names of the municipality
-  * schedule: daily
+  * schedule: manual
   * visibility: public
   * View Status > Trigger Task
 * name: CITY NAME - xlsx processing
@@ -86,6 +86,27 @@ Create new processing tasks (replace NAME with the instance name):
   * Kind: continous processing tasks for datacity ckan instances
   * ckan instance: NAME
   * processing task to run: geojson
+  * schedule: daily
+  * visibility: public
+  * View Status > Trigger Task
+
+Create organization for the instance in מידע לעם - should be the same name and icon as the city organization in the instance.
+
+organization description example: נתונים מתעדכנים אוטומטית מפורטל המידע של מעלה אדומים - https://maale-adummim.datacity.org.il/
+
+Some municipalities already exist in odata as a group - in this case you should still create an organization but make sure the id (url slug) is different
+
+For example - https://www.odata.org.il/organization/maale-adummim
+
+Create a processing task in ckan-dgp:
+
+* name: CITY NAME - sync to odata
+  * kind: sync ckan instances
+  * source: CITY NAME
+  * target: odata
+  * target organization ID: the id of the organization that you created
+  * target ckan package name prefix: city_name_dgpsync_
+  * target ckan package title prefix (example): "עיריית מעלה אדומים - " 
   * schedule: daily
   * visibility: public
   * View Status > Trigger Task
