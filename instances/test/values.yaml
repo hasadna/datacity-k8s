@@ -39,7 +39,7 @@ ckanImage: "datacity/ckan:latest"
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
 ckanHelmChartVersion: 0.0.0-eb40d6faa09ed9eb46bf468a84d2a8e847b2c29e
-ckanOperatorImage: "datacity/cca-operator:9755c546ae968f104d14181385a9924e4ebeeb17"
+ckanOperatorImage: "datacity/cca-operator:c1466d57370ceba7b23dfe4ce7a74f533bdbe9e3"
 
 ### Infrastructure / Resources ###
 
