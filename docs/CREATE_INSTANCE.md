@@ -79,14 +79,14 @@ Create new processing tasks (replace NAME with the instance name):
   * Kind: continous processing tasks for datacity ckan instances
   * ckan instance: NAME
   * processing task to run: xlsx
-  * schedule: daily
+  * schedule: hourly
   * visibility: public
   * View Status > Trigger Task
 * name: CITY NAME - geojson processing
   * Kind: continous processing tasks for datacity ckan instances
   * ckan instance: NAME
   * processing task to run: geojson
-  * schedule: daily
+  * schedule: hourly
   * visibility: public
   * View Status > Trigger Task
 
