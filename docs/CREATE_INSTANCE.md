@@ -13,7 +13,7 @@ Create a service account and HMAC key
 
 * Cloud storage > Settings > Interoperability > Create a key for another service account
 * Create new account, name: `datacity-storage-INSTANCE_NAME` (no roles)
-* Keep the access key / secret
+* Keep the access key / secret in Hasadna's vault under `datacity/sites/INSTANCE_NAME/storage`: `hmac_access_key` / `hmac_secret`
 
 Give the service account permissions for the bucket
 
