@@ -112,3 +112,13 @@ Create a processing task in ckan-dgp:
   * schedule: daily
   * visibility: public
   * View Status > Trigger Task
+
+## Add site status check
+
+* Log-in to Hasadna's StatusCake account (credentials in Vault `Monitoring/StatusCake`)
+* Uptime monitoring > new uptime test
+ * test type: http
+ * check rate: 15 minutes
+ * full url: https://SITE_DOMAIN
+ * test name: datacity - INSTANCE_NAME
+ * contact groups: datacity
