@@ -17,5 +17,5 @@ helm init -c &&\
 ${EXEC_SCRIPT}
 "
 RES=$?
-rm -rf $CCO_DIR
+docker run -it --entrypoint rm -v /tmp:/tmp datacity/ckan-cloud-operator -rf $CCO_DIR
 exit $RES
