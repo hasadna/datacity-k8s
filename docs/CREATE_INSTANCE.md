@@ -8,6 +8,7 @@ Using Google Cloud Console, create a storage bucket for the instance:
 * Location: region, europe-west1
 * Storage Class: standard
 * Permissions: fine-grained
+* Don't enforce public access prevention
 
 Create a service account and HMAC key
 
