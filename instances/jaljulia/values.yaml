@@ -15,7 +15,7 @@ skipCreateCkanAdmin: true
 ### Routing configuration ###
 
 skipRoute: true
-siteUrl: https://jaljulia.datacity.org.il
+siteUrl: https://jaljulye.datacity.org.il
 ingresses:
   - name: jaljulia-datacity-org-il
     ckanService: true
@@ -25,6 +25,16 @@ ingresses:
     tls: true
     rules:
       - host: jaljulia.datacity.org.il
+        # serviceName:
+        # servicePort:
+  - name: jaljulye-datacity-org-il
+    ckanService: true
+    # maxBodySize: "1000M"
+    extraConfig: |
+      cert-manager.io/cluster-issuer: letsencrypt
+    tls: true
+    rules:
+      - host: jaljulye.datacity.org.il
         # serviceName:
         # servicePort:
 
@@ -69,7 +79,7 @@ siteLogo: /base/images/ckan-logo.png
 
 # siteTitle must be in english to support emails
 # the ckanext-datacity extension allows setting site title for hebrew and the other languages
-siteTitle: "Jaljulia Data Portal"
+siteTitle: "Jaljulye Data Portal"
 
 operatorCopySecrets: '{"ckan-instance":{"fromName":"ckan-instance-__INSTANCE_NAME__"},"ckan-smtp":{"fromName":"datacity-ckan-smtp"}}'
 
