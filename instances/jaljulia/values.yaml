@@ -47,7 +47,7 @@ enableCronJob_PageViewsTracking: true
 updateInstanceOnImageTagChange: true
 #ckanImage: "datacity/ckan:latest"
 # https://github.com/hasadna/ckan-cloud-docker/pull/2
-ckanImage: "datacity/ckan:33c62a588608d618a60f93912a92b2e7706326f7"
+ckanImage: "datacity/ckan:e7208076cf79fabf5137cd3a0228dc2ad4e0d18e"
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
 ckanHelmChartVersion: 0.0.0-36a9163c5b5d5ab410e1e44577e48c5ca49bfbab
@@ -72,7 +72,7 @@ terminationGracePeriodSeconds: 30
 
 ### Core CKAN settings ###
 
-ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view datacity scheming_datasets scheming_groups pages
+ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view datacity scheming_datasets scheming_groups scheming_organizations pages
 ckanDefaultViews: image_view text_view recline_view geojson_view
 displayTimezone: Asia/Jerusalem
 favIcon: /base/images/ckan.ico
@@ -144,7 +144,8 @@ extraCkanConfig: |
   ckanext.s3filestore.check_access_on_startup = false
   ckanext.s3filestore.create_if_not_exists = false
   scheming.dataset_schemas = ckanext.datacity:scheming-dataset.json
-  scheming.group_schemas = ckanext.datacity:scheming-group-settings.json ckanext.datacity:scheming-group-automation.json
+  scheming.group_schemas = ckanext.datacity:scheming-group.json ckanext.datacity:scheming-group-settings.json ckanext.datacity:scheming-group-automation.json
+  scheming.organization_schemas = ckanext.datacity:scheming-organization.json
   datacity.settings_group_id = settings
   ckanext.xloader.unicode_headers = True
 
