@@ -47,7 +47,7 @@ enableCronJob_PageViewsTracking: true
 updateInstanceOnImageTagChange: true
 #ckanImage: "datacity/ckan:latest"
 # https://github.com/hasadna/ckan-cloud-docker/pull/2
-ckanImage: "datacity/ckan:46490c6459e6aa0f067d76c260e0989e3184ccee"
+ckanImage: "datacity/ckan:eb8e6ce5b516146da924d6ab9dde179d6f91d998"
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
 ckanHelmChartVersion: 0.0.0-36a9163c5b5d5ab410e1e44577e48c5ca49bfbab
