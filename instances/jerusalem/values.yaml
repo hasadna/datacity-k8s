@@ -48,7 +48,7 @@ updateInstanceOnImageTagChange: true
 ckanImage: "datacity/ckan:latest"
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
-ckanHelmChartVersion: 0.0.0-36a9163c5b5d5ab410e1e44577e48c5ca49bfbab
+ckanHelmChartVersion: 0.0.0-0e2f61f52abeb9754ca792b76cc7c11363534eec
 ckanOperatorImage: "datacity/cca-operator:c1466d57370ceba7b23dfe4ce7a74f533bdbe9e3"
 
 ### Infrastructure / Resources ###
