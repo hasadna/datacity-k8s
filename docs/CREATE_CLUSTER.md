@@ -103,8 +103,7 @@ ckan-cloud-operator cluster initialize --interactive --cluster-provider=gcloud
 Install nginx ingress
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.30.0/deploy/static/mandatory.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.30.0/deploy/static/provider/cloud-generic.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
 ```
 
 Verify ingress-nginx is Running
@@ -129,7 +128,7 @@ Install cert-manager for SSL
 
 ```
 kubectl create ns cert-manager
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
 kubectl get pods --namespace cert-manager
 ```
 
@@ -138,7 +137,7 @@ Create lets-encrypt cluster issuer
 Create a Let's Encrypt cluster issuer (replace the email with your email):
 
 ```
-echo "apiVersion: cert-manager.io/v1alpha2
+echo "apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt
