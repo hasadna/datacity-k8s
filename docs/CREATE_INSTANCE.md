@@ -29,7 +29,7 @@ gsutil cors set instances/cors-config.json gs://datacity-INSTANCE_NAME
 
 ## Set DNS
 
-Create a DNS CNAME rule `INSTANCE_NAME.datacity.org.il` to `cluster-ingress.datacity.org.il` 
+Create a DNS CNAME rule `INSTANCE_NAME.datacity.org.il` - copy the settings from another site, make sure it's routed via cloudflare to prevent DDOS
 
 ## Prepare the instance values
 
