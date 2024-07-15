@@ -13,22 +13,22 @@ metadata:
 spec:
   schedule: "0 0 1 * *"
   concurrencyPolicy: Forbid
-  entrypoint: dgp-operator-runner
-  workflowTemplateRef:
-    name: dgp-operator-runner
-  arguments:
-    parameters:
-      - name: operator
-        value: generic_fetcher
-      - name: config_json
-        value: |
-          {
-            "source_url": {{ $workflow.source_url | quote }},
-            "target_instance_name": {{ $instance | upper | quote }},
-            "target_package_id": {{ $workflow.target_package_id | quote }},
-            "target_organization_id": {{ $organization | quote }},
-            "source_filter": {{ $workflow.source_filter | toJson }}
-          }
+  workflowSpec:
+    workflowTemplateRef:
+      name: dgp-operator-runner
+    arguments:
+      parameters:
+        - name: operator
+          value: generic_fetcher
+        - name: config_json
+          value: |
+            {
+              "source_url": {{ $workflow.source_url | quote }},
+              "target_instance_name": {{ $instance | upper | quote }},
+              "target_package_id": {{ $workflow.target_package_id | quote }},
+              "target_organization_id": {{ $organization | quote }},
+              "source_filter": {{ $workflow.source_filter | toJson }}
+            }
 ------
    {{- end }}
  {{- end }}
