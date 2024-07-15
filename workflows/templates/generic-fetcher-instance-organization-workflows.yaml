@@ -33,7 +33,7 @@ kind: CronWorkflow
 metadata:
   name: generic-fetcher-{{ $workflow.name_suffix }}
 spec:
-  schedule: {{ printf "%d %d 1 * *" (randInt 0 60) (randInt 0 24) | quote }}
+  schedule: {{ $workflow.schedule | quote }}
   concurrencyPolicy: Forbid
   workflowSpec:
     workflowTemplateRef:

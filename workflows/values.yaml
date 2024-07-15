@@ -2,6 +2,7 @@ genericFetcherInstanceOrganizationWorkflows:
   haifa:
     israel-gov:
       - name_suffix: haifa-defi
+        schedule: "47 20 1 * *"  # python3 workflows/bin/get_schedule.py monthly
         source_url: https://data.gov.il/dataset/defi
         target_package_id: defi
         source_filter:
