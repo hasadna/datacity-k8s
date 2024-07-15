@@ -2,34 +2,37 @@
  {{- range $organization, $workflows := $organizations }}
    {{- range $workflow := $workflows }}
 apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: generic-fetcher-{{ $workflow.name_suffix }}
+spec:
+  workflowTemplateRef:
+    name: dgp-operator-runner
+  arguments:
+    parameters:
+      - name: operator
+        value: generic_fetcher
+      - name: config_json
+        value: |
+          {
+            "source_url": {{ $workflow.source_url | quote }},
+            "target_instance_name": {{ $instance | upper | quote }},
+            "target_package_id": {{ $workflow.target_package_id | quote }},
+            "target_organization_id": {{ $organization | quote }},
+            "source_filter": {{ $workflow.source_filter | toJson }}
+          }
+---
+apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
   name: generic-fetcher-{{ $workflow.name_suffix }}
-  annotations:
-    dgp.datacity.org.il/instance: {{ $instance | quote }}
-    dgp.datacity.org.il/organization: {{ $organization | quote }}
-    dgp.datacity.org.il/source_url: {{ $workflow.source_url | quote }}
-    dgp.datacity.org.il/target_package_id: {{ $workflow.target_package_id | quote }}
 spec:
   schedule: "0 0 1 * *"
   concurrencyPolicy: Forbid
   workflowSpec:
     workflowTemplateRef:
-      name: dgp-operator-runner
-    arguments:
-      parameters:
-        - name: operator
-          value: generic_fetcher
-        - name: config_json
-          value: |
-            {
-              "source_url": {{ $workflow.source_url | quote }},
-              "target_instance_name": {{ $instance | upper | quote }},
-              "target_package_id": {{ $workflow.target_package_id | quote }},
-              "target_organization_id": {{ $organization | quote }},
-              "source_filter": {{ $workflow.source_filter | toJson }}
-            }
-------
+      name: generic-fetcher-{{ $workflow.name_suffix }}
+---
    {{- end }}
  {{- end }}
 {{- end }}
