@@ -6,6 +6,7 @@ kind: WorkflowTemplate
 metadata:
   name: generic-fetcher-{{ $workflow.name_suffix }}
 spec:
+  entrypoint: dgp-operator-runner
   workflowTemplateRef:
     name: dgp-operator-runner
   arguments:
