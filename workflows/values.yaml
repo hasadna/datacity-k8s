@@ -1,7 +1,8 @@
 genericFetcherInstanceOrganizationWorkflows:
   haifa:
     israel-gov:
-      - source_url: https://data.gov.il/dataset/defi
+      - name_suffix: haifa-defi
+        source_url: https://data.gov.il/dataset/defi
         target_package_id: defi
         source_filter:
           indexCity: חיפה

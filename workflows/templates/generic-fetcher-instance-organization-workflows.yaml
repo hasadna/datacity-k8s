@@ -2,15 +2,17 @@
  {{- range $organization, $workflows := $organizations }}
    {{- range $workflow := $workflows }}
 apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: CronWorkflow
 metadata:
-  generateName: generic-fetcher-
+  name: generic-fetcher-{{ $workflow.name_suffix }}
   annotations:
     dgp.datacity.org.il/instance: {{ $instance | quote }}
     dgp.datacity.org.il/organization: {{ $organization | quote }}
     dgp.datacity.org.il/source_url: {{ $workflow.source_url | quote }}
     dgp.datacity.org.il/target_package_id: {{ $workflow.target_package_id | quote }}
 spec:
+  schedule: "@monthly"
+  concurrencyPolicy: Forbid
   workflowTemplateRef:
     name: dgp-operator-runner
   arguments:
