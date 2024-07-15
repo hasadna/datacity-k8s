@@ -1,6 +1,6 @@
-{{- range $instance, $organizations := .Values.genericFetcherInstanceOrganizationWorkflows }}
- {{- range $organization, $workflows := $organizations }}
-   {{- range $workflow := $workflows }}
+#{{- range $instance, $organizations := .Values.genericFetcherInstanceOrganizationWorkflows }}
+# {{- range $organization, $workflows := $organizations }}
+#   {{- range $workflow := $workflows }}
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
@@ -27,18 +27,18 @@ spec:
                       "target_organization_id": {{ $organization | quote }},
                       "source_filter": {{ $workflow.source_filter | toJson }}
                     }
+#---
+#apiVersion: argoproj.io/v1alpha1
+#kind: CronWorkflow
+#metadata:
+#  name: generic-fetcher-{{ $workflow.name_suffix }}
+#spec:
+#  schedule: "0 0 1 * *"
+#  concurrencyPolicy: Forbid
+#  workflowSpec:
+#    workflowTemplateRef:
+#      name: generic-fetcher-{{ $workflow.name_suffix }}
 ---
-apiVersion: argoproj.io/v1alpha1
-kind: CronWorkflow
-metadata:
-  name: generic-fetcher-{{ $workflow.name_suffix }}
-spec:
-  schedule: "0 0 1 * *"
-  concurrencyPolicy: Forbid
-  workflowSpec:
-    workflowTemplateRef:
-      name: generic-fetcher-{{ $workflow.name_suffix }}
----
-   {{- end }}
- {{- end }}
-{{- end }}
+#   {{- end }}
+# {{- end }}
+#{{- end }}
