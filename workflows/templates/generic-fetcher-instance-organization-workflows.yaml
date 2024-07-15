@@ -11,7 +11,7 @@ metadata:
     dgp.datacity.org.il/source_url: {{ $workflow.source_url | quote }}
     dgp.datacity.org.il/target_package_id: {{ $workflow.target_package_id | quote }}
 spec:
-  schedule: "0 0 0 1 * *"
+  schedule: "0 0 1 * *"
   concurrencyPolicy: Forbid
   entrypoint: dgp-operator-runner
   workflowTemplateRef:
