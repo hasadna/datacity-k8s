@@ -5,6 +5,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
   name: generic-fetcher-{{ $workflow.name_suffix }}
+  labels:
+    datacity-instance: {{ $instance | quote }}
+    datacity-organization: {{ $organization | quote }}
 spec:
   entrypoint: generic-fetcher
   templates:
@@ -32,6 +35,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
   name: generic-fetcher-{{ $workflow.name_suffix }}
+  labels:
+    datacity-instance: {{ $instance | quote }}
+    datacity-organization: {{ $organization | quote }}
 spec:
   schedule: {{ $workflow.schedule | quote }}
   concurrencyPolicy: Forbid
