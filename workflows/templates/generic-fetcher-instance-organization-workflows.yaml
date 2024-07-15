@@ -33,7 +33,7 @@ kind: CronWorkflow
 metadata:
   name: generic-fetcher-{{ $workflow.name_suffix }}
 spec:
-  schedule: "* * * * *"
+  schedule: "0 0 1 * *"
   concurrencyPolicy: Forbid
   workflowSpec:
     workflowTemplateRef:
