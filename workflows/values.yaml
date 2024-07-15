@@ -1,9 +1,69 @@
 genericFetcherInstanceOrganizationWorkflows:
   haifa:
     israel-gov:
+      - name_suffix: haifa-automated-devices
+        schedule: "54 1 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/automated-devices
+        target_package_id: automated-devices
+        source_filter:
+          City: חיפה
+      - name_suffix: haifa-branches
+        schedule: "21 22 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/branches
+        target_package_id: branches
+        source_filter:
+          City: חיפה
+      - name_suffix: haifa-antenna-hakama
+        schedule: "33 16 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/antenna_hakama
+        target_package_id: antenna_hakama
+        source_filter:
+          "יישוב": חיפה
+      - name_suffix: haifa-antennaactive
+        schedule: "51 11 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/antennaactive
+        target_package_id: antennaactive
+        source_filter:
+          "עיר": חיפה
+      - name_suffix: haifa-buildingsites
+        schedule: "30 6 * * *"  # python3 workflows/bin/get_schedule.py daily
+        source_url: https://data.gov.il/dataset/buildingsites
+        target_package_id: buildingsites
+        source_filter:
+          "city_name": חיפה
+      - name_suffix: haifa-moj-amutot
+        schedule: "55 11 * * 1"  # python3 workflows/bin/get_schedule.py weekly
+        source_url: https://data.gov.il/dataset/moj-amutot
+        target_package_id: moj-amutot
+        source_filter:
+          "כתובת - ישוב": חיפה
       - name_suffix: haifa-defi
         schedule: "47 20 1 * *"  # python3 workflows/bin/get_schedule.py monthly
         source_url: https://data.gov.il/dataset/defi
         target_package_id: defi
         source_filter:
           indexCity: חיפה
+      - name_suffix: haifa-israel-streets-synom
+        schedule: "59 14 * * 1"  # python3 workflows/bin/get_schedule.py weekly
+        source_url: https://data.gov.il/dataset/israel-streets-synom
+        target_package_id: israel-streets-synom
+        source_filter:
+          "city_name": חיפה
+      - name_suffix: haifa-fuelstationbynumber
+        schedule: "10 1 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/fuelstationbynumber
+        target_package_id: fuelstationbynumber
+        source_filter:
+          City: חיפה
+      - name_suffix: haifa-ridership
+        schedule: "28 19 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/ridership
+        target_package_id: ridership
+        source_filter:
+          Metropolin: חיפה
+      - name_suffix: haifa-accidents-municipal
+        schedule: "33 10 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/accidents_municipal
+        target_package_id: accidents_municipal
+        source_filter:
+          CITY: חיפה
