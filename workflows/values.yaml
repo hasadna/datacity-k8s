@@ -18,7 +18,7 @@ genericFetcherInstanceOrganizationWorkflows:
         source_url: https://data.gov.il/dataset/antenna_hakama
         target_package_id: antenna_hakama
         source_filter:
-          "יישוב": חיפה
+          "ישוב": חיפה
       - name_suffix: haifa-antennaactive
         schedule: "51 11 1 * *"  # python3 workflows/bin/get_schedule.py monthly
         source_url: https://data.gov.il/dataset/antennaactive
@@ -60,10 +60,34 @@ genericFetcherInstanceOrganizationWorkflows:
         source_url: https://data.gov.il/dataset/ridership
         target_package_id: ridership
         source_filter:
-          Metropolin: חיפה
+          Metropolin: מטרופולין חיפה
       - name_suffix: haifa-accidents-municipal
         schedule: "33 10 1 * *"  # python3 workflows/bin/get_schedule.py monthly
         source_url: https://data.gov.il/dataset/accidents_municipal
         target_package_id: accidents_municipal
         source_filter:
           CITY: חיפה
+      - name_suffix: haifa-protectedhouseslist
+        schedule: "46 3 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/protectedhouseslist
+        target_package_id: protectedhouseslist
+        source_filter:
+          settlement: חיפה
+      - name_suffix: haifa-hostelsgis
+        schedule: "4 18 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/hostelsgis
+        target_package_id: hostelsgis
+        source_filter:
+          CityName: חיפה
+      - name_suffix: haifa-molsa-outerhomes-elderly
+        schedule: "21 20 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/molsa-outerhomes-elderly
+        target_package_id: molsa-outerhomes-elderly
+        source_filter:
+          locality: חיפה
+      - name_suffix: haifa-bus-stops
+        schedule: "45 7 1 * * * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/bus_stops
+        target_package_id: bus-stops
+        source_filter:
+          MetropolinName: חיפה
