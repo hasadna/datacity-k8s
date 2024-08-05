@@ -47,7 +47,6 @@ metadata:
 spec:
   schedule: "@hourly"
   concurrencyPolicy: Forbid
-  suspend: true
   workflowSpec:
     workflowTemplateRef:
       name: cntprct-{{ $instance }}-{{ $task }}
