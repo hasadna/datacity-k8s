@@ -32,7 +32,7 @@ def main(values_path, *args):
     kwargs = {}
     for arg in args:
         if arg.startswith('--') and '=' in arg:
-            arg.replace('--', '')
+            arg = arg.replace('--', '')
             key, value = arg.split('=')
             kwargs[key] = value
     exec_ = '--exec' in args
