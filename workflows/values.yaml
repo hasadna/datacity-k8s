@@ -1,3 +1,7 @@
+# The maximum concurrency for all datacity workflows
+# this is important because all workflows run on the dgp server
+concurrency: 4
+
 genericFetcherInstanceOrganizationWorkflows:
   haifa:
     israel-gov:
@@ -91,3 +95,17 @@ genericFetcherInstanceOrganizationWorkflows:
         target_package_id: bus-stops
         source_filter:
           MetropolinName: חיפה
+
+continuousProcessingTasks:
+  - xlsx
+  - geojson
+
+continuousProcessingTasksInstanceWorkflows:
+  haifa: {}
+  jaljulia: {}
+  jerusalem: {}
+  maale-adummim: {}
+  netanya: {}
+  rishonlezion: {}
+  kfar-saba: {}
+  test: {}

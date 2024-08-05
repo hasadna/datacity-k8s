@@ -6,12 +6,21 @@ kind: WorkflowTemplate
 metadata:
   name: generic-fetcher-{{ $workflow.name_suffix }}
   labels:
+    datacity-workflow: generic-fetcher
     datacity-instance: {{ $instance | quote }}
     datacity-organization: {{ $organization | quote }}
 spec:
   entrypoint: generic-fetcher
+  synchronization:
+    semaphore:
+      configMapKeyRef:
+        name: argo-workflows
+        key: datacity-concurrency
   templates:
     - name: generic-fetcher
+      synchronization:
+        mutex:
+          name: instance-{{ $instance }}
       steps:
         - - name: call-template
             templateRef:
@@ -36,6 +45,7 @@ kind: CronWorkflow
 metadata:
   name: generic-fetcher-{{ $workflow.name_suffix }}
   labels:
+    datacity-workflow: generic-fetcher
     datacity-instance: {{ $instance | quote }}
     datacity-organization: {{ $organization | quote }}
 spec:

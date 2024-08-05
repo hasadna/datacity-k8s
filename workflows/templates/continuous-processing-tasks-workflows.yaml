@@ -1,0 +1,56 @@
+{{- range $instance, $config := .Values.continuousProcessingTasksInstanceWorkflows }}
+ {{- range $task := $.Values.continuousProcessingTasks }}
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: cntprct-{{ $instance }}-{{ $task }}
+  labels:
+    datacity-workflow: continuous-processing-task
+    datacity-instance: {{ $instance | quote }}
+    datacity-cntprct-task: {{ $task | quote }}
+spec:
+  entrypoint: continuous-processing-task
+  synchronization:
+    semaphore:
+      configMapKeyRef:
+        name: argo-workflows
+        key: datacity-concurrency
+  templates:
+    - name: continuous-processing-task
+      synchronization:
+        mutex:
+          name: instance-{{ $instance }}
+      steps:
+        - - name: call-template
+            templateRef:
+              name: dgp-operator-runner
+              template: dgp-operator-runner
+            arguments:
+              parameters:
+                - name: operator
+                  value: packages_processing
+                - name: config_json
+                  value: |
+                    {
+                      "instance": {{ $instance | quote }},
+                      "task": {{ $task | quote }}
+                    }
+---
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: cntprct-{{ $instance }}-{{ $task }}
+  labels:
+    datacity-workflow: continuous-processing-task
+    datacity-instance: {{ $instance | quote }}
+    datacity-cntprct-task: {{ $task | quote }}
+spec:
+  schedule: "@hourly"
+  concurrencyPolicy: Forbid
+  suspend: true
+  workflowSpec:
+    workflowTemplateRef:
+      name: cntprct-{{ $instance }}-{{ $task }}
+---
+ {{- end }}
+{{- end }}
