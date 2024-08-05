@@ -9,25 +9,46 @@ from ruamel.yaml import YAML
 yaml = YAML(typ='safe')
 
 
+ROOTPATHS_CONFIG = {
+    # python3 workflows/bin/get_dgp_operator_call.py genericFetcherInstanceOrganizationWorkflows.haifa-automated-devices
+    'genericFetcherInstanceOrganizationWorkflows': {
+        'get_name': lambda values: f'generic-fetcher-{values[1]}',
+        'config_instance_key': 'target_instance_name'
+    },
+    # python3 workflows/bin/get_dgp_operator_call.py continuousProcessingTasksInstanceWorkflows.haifa.xlsx
+    'continuousProcessingTasksInstanceWorkflows': {
+        'get_name': lambda values: f'cntprct-{values[1]}-{values[2]}',
+        'config_instance_key': 'instance_name'
+    }
+}
+
+
 def main(values_path, *args):
-    target_instance_name = 'LOCAL_DEVELOPMENT'
+    kwargs = {}
     for arg in args:
-        if arg.startswith('--target-instance-name='):
-            target_instance_name = arg.split('=')[1]
+        if arg.startswith('--') and '=' in arg:
+            arg.replace('--', '')
+            key, value = arg.split('=')
+            kwargs[key] = value
     exec_ = '--exec' in args
     values = values_path.split('.')
-    if values[0] == 'genericFetcherInstanceOrganizationWorkflows':
-        name_suffix = values[1]
+    rootpath_config = ROOTPATHS_CONFIG.get(values[0])
+    if rootpath_config:
+        if 'get_extra_config' in rootpath_config:
+            extra_config = rootpath_config['get_extra_config'](kwargs, values)
+        else:
+            extra_config = {}
+        extra_config[rootpath_config['config_instance_key']] = kwargs.get('target_instance_name') or 'LOCAL_DEVELOPMENT'
         templates = subprocess.check_output(['helm', 'template', 'workflows'], text=True)
         templates = yaml.load_all(templates)
         num_matches = 0
         cmd = None
         for template in templates:
-            if template.get('kind') == 'WorkflowTemplate' and template.get('metadata', {}).get('name') == f'generic-fetcher-{name_suffix}':
+            if template.get('kind') == 'WorkflowTemplate' and template.get('metadata', {}).get('name') == rootpath_config['get_name'](values):
                 num_matches += 1
                 params = {p['name']: p['value'] for p in template['spec']['templates'][0]['steps'][0][0]['arguments']['parameters']}
                 config = json.loads(params['config_json'])
-                config['target_instance_name'] = target_instance_name
+                config.update(extra_config)
                 config_json = json.dumps(config, ensure_ascii=False)
                 cmd = ['-m', f'datacity_ckan_dgp.operators.{params["operator"]}', config_json]
                 print('python3 ' + ' '.join(cmd))

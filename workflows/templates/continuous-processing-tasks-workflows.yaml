@@ -32,7 +32,7 @@ spec:
                 - name: config_json
                   value: |
                     {
-                      "instance": {{ $instance | quote }},
+                      "instance_name": {{ $instance | quote }},
                       "task": {{ $task | quote }}
                     }
 ---
