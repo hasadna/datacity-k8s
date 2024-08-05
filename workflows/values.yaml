@@ -90,7 +90,7 @@ genericFetcherInstanceOrganizationWorkflows:
         source_filter:
           locality: חיפה
       - name_suffix: haifa-bus-stops
-        schedule: "45 7 1 * * * *"  # python3 workflows/bin/get_schedule.py monthly
+        schedule: "45 7 1 * *"  # python3 workflows/bin/get_schedule.py monthly
         source_url: https://data.gov.il/dataset/bus_stops
         target_package_id: bus-stops
         source_filter:
