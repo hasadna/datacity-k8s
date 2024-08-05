@@ -45,7 +45,7 @@ metadata:
     datacity-instance: {{ $instance | quote }}
     datacity-cntprct-task: {{ $task | quote }}
 spec:
-  schedule: "@hourly"
+  schedule: "0 * * * *"
   concurrencyPolicy: Forbid
   workflowSpec:
     workflowTemplateRef:
