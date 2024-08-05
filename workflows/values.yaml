@@ -117,3 +117,23 @@ gisFetcherInstanceOrganizationWorkflows:
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Eng_Public/MapServer/13
         target_package_id: yeudei_karka
         schedule: "49 23 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-migun
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Other_Public/MapServer/1
+        target_package_id: migun
+        schedule: "10 7 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-recycle-bins
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/0
+        target_package_id: recycle_bins
+        schedule: "31 2 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-public-gardens
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/1
+        target_package_id: public_gardens
+        schedule: "53 16 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-cameras
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Other_Public/MapServer/7
+        target_package_id: cameras
+        schedule: "11 12 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-traffic-cameras
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Other_Public/MapServer/8
+        target_package_id: traffic_cameras
+        schedule: "51 0 * * *"  # python3 workflows/bin/get_schedule.py daily
