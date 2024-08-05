@@ -109,3 +109,11 @@ continuousProcessingTasksInstanceWorkflows:
   rishonlezion: {}
   kfar-saba: {}
   test: {}
+
+gisFetcherInstanceOrganizationWorkflows:
+  haifa:
+    muni:
+      - name_suffix: haifa-yeudei-karka
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Eng_Public/MapServer/13
+        target_package_id: yeudei_karka
+        schedule: "49 23 * * *"  # python3 workflows/bin/get_schedule.py daily

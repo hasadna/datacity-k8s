@@ -19,7 +19,12 @@ ROOTPATHS_CONFIG = {
     'continuousProcessingTasksInstanceWorkflows': {
         'get_name': lambda values: f'cntprct-{values[1]}-{values[2]}',
         'config_instance_key': 'instance_name'
-    }
+    },
+    # python3 workflows/bin/get_dgp_operator_call.py gisFetcherInstanceOrganizationWorkflows.haifa-yeudei-karka
+    'gisFetcherInstanceOrganizationWorkflows': {
+        'get_name': lambda values: f'gis-fetcher-{values[1]}',
+        'config_instance_key': 'target_instance_name'
+    },
 }
 
 

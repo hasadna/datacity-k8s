@@ -1,0 +1,59 @@
+{{- range $instance, $organizations := .Values.gisFetcherInstanceOrganizationWorkflows }}
+ {{- range $organization, $workflows := $organizations }}
+   {{- range $workflow := $workflows }}
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: gis-fetcher-{{ $workflow.name_suffix }}
+  labels:
+    datacity-workflow: gis-fetcher
+    datacity-instance: {{ $instance | quote }}
+    datacity-organization: {{ $organization | quote }}
+spec:
+  entrypoint: gis-fetcher
+  synchronization:
+    semaphore:
+      configMapKeyRef:
+        name: argo-workflows
+        key: datacity-concurrency
+  templates:
+    - name: gis-fetcher
+      synchronization:
+        mutex:
+          name: instance-{{ $instance }}
+      steps:
+        - - name: call-template
+            templateRef:
+              name: dgp-operator-runner
+              template: dgp-operator-runner
+            arguments:
+              parameters:
+                - name: operator
+                  value: gis_fetcher
+                - name: config_json
+                  value: |
+                    {
+                      "gis_url": {{ $workflow.gis_url | quote }},
+                      "target_instance_name": {{ $instance | upper | quote }},
+                      "target_package_id": {{ $workflow.target_package_id | quote }},
+                      "target_organization_id": {{ $organization | quote }}
+                    }
+---
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: gis-fetcher-{{ $workflow.name_suffix }}
+  labels:
+    datacity-workflow: gis-fetcher
+    datacity-instance: {{ $instance | quote }}
+    datacity-organization: {{ $organization | quote }}
+spec:
+  schedule: {{ $workflow.schedule | quote }}
+  concurrencyPolicy: Forbid
+  workflowSpec:
+    workflowTemplateRef:
+      name: gis-fetcher-{{ $workflow.name_suffix }}
+---
+   {{- end }}
+ {{- end }}
+{{- end }}
