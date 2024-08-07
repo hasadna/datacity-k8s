@@ -1,36 +1,5 @@
 # Create a Datacity Instance
 
-## Create a Storage Bucket
-
-Using Google Cloud Console, create a storage bucket for the instance:
-
-* name: `datacity-INSTANCE_NAME`
-* Location: region, europe-west1
-* Storage Class: standard
-* Permissions: fine-grained
-* Don't enforce public access prevention
-
-Create a service account and HMAC key
-
-* Cloud storage > Settings > Interoperability > Create a key for another service account
-* Create new account, name: `datacity-storage-INSTANCE_NAME` (no roles)
-* Keep the access key / secret in Hasadna's vault under `Projects/datacity/sites/INSTANCE_NAME/storage`: `hmac_access_key` / `hmac_secret`
-
-Give the service account permissions for the bucket
-
-* Cloud Storage > Bucket > Permissions
-* Add the service account with Storage Object Admin role
-
-Set CORS on the bucket
-
-```
-gsutil cors set instances/cors-config.json gs://datacity-INSTANCE_NAME
-``` 
-
-## Set DNS
-
-Create a DNS CNAME rule `INSTANCE_NAME.datacity.org.il` - copy the settings from another site, make sure it's routed via cloudflare to prevent DDOS
-
 ## Prepare the instance values
 
 Instance values are stored in this repository under `instances/INSTANCE_NAME/values.yaml`
@@ -38,6 +7,12 @@ Instance values are stored in this repository under `instances/INSTANCE_NAME/val
 You can copy values from another instances and modify as needed
 
 Commit the new instance values
+
+## Deploy hasadna-iac Terraform
+
+Apply hasadna-iac terraform - it should pickup the new instance and create the necessary resources
+
+See hasadna/nasadna-iac repo for details
 
 ## Create instance
 

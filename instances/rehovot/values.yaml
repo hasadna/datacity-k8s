@@ -1,0 +1,165 @@
+### Core settings ###
+
+active: true
+ready: true
+centralizedSecretName: ckan-infra
+# debugMode: NO
+ckanStorageClassName: cca-ckan
+storageClassName: cca-storage
+useCentralizedInfra: true
+usePersistentVolumes: true
+#withSansSSL: true
+useCloudStorage: false
+skipCreateCkanAdmin: true
+
+### Routing configuration ###
+
+skipRoute: true
+siteUrl: https://rehovot.datacity.org.il
+ingresses:
+  - name: rehovot-datacity-org-il
+    ckanService: true
+    # maxBodySize: "1000M"
+    extraConfig: |
+      cert-manager.io/cluster-issuer: letsencrypt
+    tls: true
+    rules:
+      - host: rehovot.datacity.org.il
+        # serviceName:
+        # servicePort:
+
+### CronJobs ###
+
+enableCronJob_PageViewsTracking: true
+
+### App versions ###
+
+updateInstanceOnImageTagChange: true
+ckanImage: "datacity/ckan:latest"
+
+ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
+ckanHelmChartVersion: 0.0.0-bb0945e8340d99a0d44d9670cdf9248b99e7f923
+ckanOperatorImage: "datacity/cca-operator:c1466d57370ceba7b23dfe4ce7a74f533bdbe9e3"
+
+### Infrastructure / Resources ###
+
+# ckanPodReplaceStrategy: Recreate
+replicas: 1
+nginxReplicas: 1
+ckanGunicornWorkers: 4
+ckanResources: '{"requests": {"cpu": "0.2", "memory": "800Mi"}, "limits": {"memory": "2Gi"}}'
+nginxResources: '{"requests": {"cpu": "0.05", "memory": "300Mi"}, "limits": {"memory": "800Mi"}}'
+ckanJobsDbResources: '{"requests": {"cpu": "0.02", "memory": "50Mi"}, "limits": {"memory": "200Mi"}}'
+ckanJobsResources: '{"requests": {"cpu": "0.05", "memory": "400Mi"}, "limits": {"memory": "1500Mi"}}'
+redisResources: '{"requests": {"cpu": "0.02", "memory": "50Mi"}, "limits": {"memory": "200Mi"}}'
+ckanLivenessPeriodSeconds: 300
+ckanJobsDbTerminationGracePeriodSeconds: 30
+ckanJobsTerminationGracePeriodSeconds: 30
+jobsDbPersistentDiskSizeGB: 5
+terminationGracePeriodSeconds: 30
+
+### Core CKAN settings ###
+
+ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view datacity scheming_datasets scheming_groups pages
+ckanDefaultViews: image_view text_view recline_view geojson_view
+displayTimezone: Asia/Jerusalem
+favIcon: /base/images/ckan.ico
+siteDescription: "פורטל מידע - עיריית רחובות"
+siteLogo: /base/images/ckan-logo.png
+
+# siteTitle must be in english to support emails
+# the ckanext-datacity extension allows setting site title for hebrew and the other languages
+siteTitle: "Rehovot Data Portal"
+
+operatorCopySecrets: '{"ckan-instance":{"fromName":"ckan-instance-__INSTANCE_NAME__"},"ckan-smtp":{"fromName":"datacity-ckan-smtp"}}'
+
+extraCkanContainerEnvs: |
+  - name: S3_FILESTORE_AWS_HOST_NAME
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_HOST_NAME"}}
+  - name: S3_FILESTORE_AWS_ACCESS_KEY_ID
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_ACCESS_KEY_ID"}}
+  - name: S3_FILESTORE_AWS_SECRET_ACCESS_KEY
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_SECRET_ACCESS_KEY"}}
+  - name: S3_FILESTORE_AWS_BUCKET_NAME
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_BUCKET_NAME"}}
+  - name: S3_FILESTORE_AWS_REGION_NAME
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_REGION_NAME"}}
+  - name: SMTP_MAIL_FROM
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_MAIL_FROM"}}
+  - name: SMTP_PASSWORD
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_PASSWORD"}}
+  - name: SMTP_SERVER
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_SERVER"}}
+  - name: SMTP_STARTTLS
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_STARTTLS"}}
+  - name: SMTP_USER
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_USER"}}
+
+extraJobsContainerEnvs: |
+  - name: S3_FILESTORE_AWS_HOST_NAME
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_HOST_NAME"}}
+  - name: S3_FILESTORE_AWS_ACCESS_KEY_ID
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_ACCESS_KEY_ID"}}
+  - name: S3_FILESTORE_AWS_SECRET_ACCESS_KEY
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_SECRET_ACCESS_KEY"}}
+  - name: S3_FILESTORE_AWS_BUCKET_NAME
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_BUCKET_NAME"}}
+  - name: S3_FILESTORE_AWS_REGION_NAME
+    valueFrom: {"secretKeyRef": {"name": "ckan-instance", "key": "S3_FILESTORE_AWS_REGION_NAME"}}
+  - name: SMTP_MAIL_FROM
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_MAIL_FROM"}}
+  - name: SMTP_PASSWORD
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_PASSWORD"}}
+  - name: SMTP_SERVER
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_SERVER"}}
+  - name: SMTP_STARTTLS
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_STARTTLS"}}
+  - name: SMTP_USER
+    valueFrom: {"secretKeyRef": {"name": "ckan-smtp", "key": "SMTP_USER"}}
+
+extraCkanConfig: |
+  ckan.locale_default = he
+  ckan.locale_order = he en_US ar
+  ckan.locales_offered = he en_US ar
+  ckan.locales_filtered_out =
+  ckan.tracking_enabled = true
+  ckanext.s3filestore.host_name = {{S3_FILESTORE_AWS_HOST_NAME}}
+  ckanext.s3filestore.aws_access_key_id = {{S3_FILESTORE_AWS_ACCESS_KEY_ID}}
+  ckanext.s3filestore.aws_secret_access_key = {{S3_FILESTORE_AWS_SECRET_ACCESS_KEY}}
+  ckanext.s3filestore.aws_bucket_name = {{S3_FILESTORE_AWS_BUCKET_NAME}}
+  ckanext.s3filestore.region_name = {{S3_FILESTORE_AWS_REGION_NAME}}
+  ckanext.s3filestore.signature_version = s3v4
+  ckanext.s3filestore.check_access_on_startup = false
+  ckanext.s3filestore.create_if_not_exists = false
+  scheming.dataset_schemas = ckanext.datacity:scheming-dataset.json
+  scheming.group_schemas = ckanext.datacity:scheming-group-settings.json ckanext.datacity:scheming-group-automation.json
+  datacity.settings_group_id = settings
+  ckanext.xloader.unicode_headers = True
+
+### CKAN auth settings ###
+
+authAnon_create_dataset: "false"
+authCreate_dataset_if_not_in_organization: "true"
+authCreate_unowned_dataset: "false"
+authCreate_user_via_api: "false"
+authCreate_user_via_web: "true"
+authRoles_that_cascade_to_sub_groups: admin
+authUser_create_groups: "false"
+authUser_create_organizations: "false"
+authUser_delete_groups: "false"
+authUser_delete_organizations: "false"
+
+#dataStoreDbPersistentDiskSizeGB: 20
+#datastoreDbResources: '{"requests": {"cpu": "100m", "memory": "200Mi"}, "limits": {"memory": "600Mi"}}'
+#datastoreDbTerminationGracePeriodSeconds: 30
+#dbPersistentDiskSizeGB: 20
+#dbResources: '{"requests": {"cpu": "100m", "memory": "200Mi"}, "limits": {"memory": "600Mi"}}'
+#dbTerminationGracePeriodSeconds: 30
+#domain: ckan-cloud-a-ckan-instance.ckan-aws-testing.gq
+#id: a-ckan-instance
+#kind: datapusher
+#name: a-ckan-instance
+#provisioningKindTitle: DataPusher / Catalog
+#registerSubdomain: ckan-cloud-a-ckan-instance
+#solrPersistentDiskSizeGB: 10
+#solrResources: '{"requests": {"cpu": "60m", "memory": "600Mi"}, "limits": {"memory": "1Gi"}}'
