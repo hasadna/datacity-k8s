@@ -109,6 +109,7 @@ continuousProcessingTasksInstanceWorkflows:
   rishonlezion: {}
   kfar-saba: {}
   test: {}
+  rehovot: {}
 
 gisFetcherInstanceOrganizationWorkflows:
   haifa:

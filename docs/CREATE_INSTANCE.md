@@ -17,6 +17,7 @@ See hasadna/nasadna-iac repo for details
 ## Create instance
 
 Run the Jenkins job `create-instance`
+  * set the values for S3_FILESTORE_AWS_ACCESS_KEY_ID and S3_FILESTORE_AWS_SECRET_ACCESS_KEY from vault path `Projects/datacity/sites/INSTANCE_NAME/storage-iac`
 
 ## Update instance
 
@@ -43,7 +44,7 @@ Redeploy the ckan dgp server in hasadna cluster - namespace: `datacity`, deploym
 
 Login to the ckan dgp server - https://ckan-dgp.datacity.org.il/
 
-Create new processing tasks (replace NAME with the instance name):
+Create new processing task (replace NAME with the instance name):
 
 * name: CITY NAME - initialize
   * Kind: initialize datacity ckan instances
@@ -51,20 +52,6 @@ Create new processing tasks (replace NAME with the instance name):
   * main organization title: עיריית שם העיר
   * names of the municipality: write as many differently spelled names of the municipality
   * schedule: manual
-  * visibility: public
-  * View Status > Trigger Task
-* name: CITY NAME - xlsx processing
-  * Kind: continous processing tasks for datacity ckan instances
-  * ckan instance: NAME
-  * processing task to run: xlsx
-  * schedule: hourly
-  * visibility: public
-  * View Status > Trigger Task
-* name: CITY NAME - geojson processing
-  * Kind: continous processing tasks for datacity ckan instances
-  * ckan instance: NAME
-  * processing task to run: geojson
-  * schedule: hourly
   * visibility: public
   * View Status > Trigger Task
 
@@ -89,6 +76,6 @@ Create a processing task in ckan-dgp:
   * visibility: public
   * View Status > Trigger Task
 
-## Add site status checks
+## Update Workflows
 
-Run hasadna-iac apply to create status checks for all the sites
+Edit in this repo `workflows/values.yaml` and add the instance name under `continuousProcessingTasksInstanceWorkflows`, commit & push
