@@ -14,7 +14,7 @@ jobs:
         if [ "${GITHUB_REF}" == "refs/heads/master" ]; then
           LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s") &&\
           cd instances &&\
-          for INSTANCE_NAME in `ls --hide *.txt`; do
+          for INSTANCE_NAME in `ls --hide=*.txt --hide=*.json --hide=*.disabled`; do
             if echo "${LAST_COMMIT_MSG}" | grep -- --update-instances >/dev/null && echo "${LAST_COMMIT_MSG}" | grep $INSTANCE_NAME >/dev/null; then
               echo "updating instance: $INSTANCE_NAME (requested manually using --update-instances)" &&\
               curl --user "${JENKINS_USER}:${JENKINS_TOKEN}" -X POST "${JENKINS_UPDATE_INSTANCE_URL}?INSTANCE_NAME=${INSTANCE_NAME}"
