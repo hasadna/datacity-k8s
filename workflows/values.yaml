@@ -3,6 +3,21 @@
 concurrency: 4
 
 genericFetcherInstanceOrganizationWorkflows:
+  rehovot:
+    muni:
+      - name_suffix: rehovot-welfare-frames
+        schedule: "4 6 1 * *"  # python3 workflows/bin/get_schedule.py monthly
+        source_url: https://data.gov.il/dataset/welfare-frames
+        target_package_id: welfare-frames
+        source_filter:
+          City_Name: רחובות
+        post_processing:
+          - type: keep-last-updated-per-year
+            month: 10  # keep the last updated file for each year on 1st of this month (must be between 1-11 inclusive, 12 is not supported)
+            format: csv
+            resource_name: מסגרות רווחה
+
+
   haifa:
     israel-gov:
       - name_suffix: haifa-automated-devices

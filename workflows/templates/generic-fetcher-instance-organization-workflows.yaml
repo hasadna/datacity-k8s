@@ -38,6 +38,7 @@ spec:
                       "target_package_id": {{ $workflow.target_package_id | quote }},
                       "target_organization_id": {{ $organization | quote }},
                       "source_filter": {{ $workflow.source_filter | toJson }}
+                      {{- if $workflow.post_processing }},"post_processing": {{ $workflow.post_processing | toJson }}{{- end }}
                     }
 ---
 apiVersion: argoproj.io/v1alpha1
