@@ -29,3 +29,5 @@ Set a DNS CNAME from the external domain to `INSTANCE_NAME.datacity.org.il`
 Edit the values and add an ingress rule for this domain
 
 Deploy
+
+If you had existing resources on the instance, run jenkins job reindex-solr
