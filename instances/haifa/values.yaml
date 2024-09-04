@@ -20,13 +20,12 @@ ingresses:
   - name: opendata-haifa-muni-il
     ckanService: true
     # maxBodySize: "1000M"
-    # extraConfig: |
-    #   cert-manager.io/cluster-issuer: letsencrypt
-    tls: true
+    extraConfig: |
+      cert-manager.io/cluster-issuer: ""
+    tls: false
     rules:
       - host: opendata.haifa.muni.il
-        # serviceName:
-        # servicePort:
+      - host: haifa.datacity.org.il
 
 ### CronJobs ###
 
