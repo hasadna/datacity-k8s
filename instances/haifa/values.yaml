@@ -15,16 +15,16 @@ skipCreateCkanAdmin: true
 ### Routing configuration ###
 
 skipRoute: true
-siteUrl: https://haifa.datacity.org.il
+siteUrl: https://opendata.haifa.muni.il
 ingresses:
-  - name: haifa-datacity-org-il
+  - name: opendata-haifa-muni-il
     ckanService: true
     # maxBodySize: "1000M"
-    extraConfig: |
-      cert-manager.io/cluster-issuer: letsencrypt
+    # extraConfig: |
+    #   cert-manager.io/cluster-issuer: letsencrypt
     tls: true
     rules:
-      - host: haifa.datacity.org.il
+      - host: opendata.haifa.muni.il
         # serviceName:
         # servicePort:
 
