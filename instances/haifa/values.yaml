@@ -37,7 +37,7 @@ updateInstanceOnImageTagChange: true
 # Haifa Design
 # https://github.com/hasadna/ckan-cloud-docker/pull/3
 # https://github.com/hasadna/ckanext-datacity/pull/5
-ckanImage: "datacity/ckan:83204a8991e3f7fc1a3bd0f2da22cd4d8272c278"
+ckanImage: "datacity/ckan:4bfd6daab4cb2a59d568b7c504c1489f237a479a"
 
 ckanHelmChartRepo: https://raw.githubusercontent.com/hasadna/ckan-cloud-helm/master/charts_repository
 ckanHelmChartVersion: 0.0.0-bb0945e8340d99a0d44d9670cdf9248b99e7f923
