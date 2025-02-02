@@ -1,0 +1,82 @@
+[
+      {
+        "gallery_headline": "דמוגרפיה",
+        "gallery_image": "דמוגרפיה.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_demograph"
+      },
+      {
+        "gallery_headline": "שטח אקלים ואיכות הסביבה",
+        "gallery_image": "שטח אקלים ואיכות הסביבה.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_environment"
+      },
+      {
+        "gallery_headline": "עבודה",
+        "gallery_image": "עבודה.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_labor"
+      },
+      {
+        "gallery_headline": "תעשייה מסחר ושירותים",
+        "gallery_image": "תעשייה מסחר ושירותים.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat-industry"
+      },
+      {
+        "gallery_headline": "תיירות",
+        "gallery_image": "תיירות.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_tourism"
+      },
+      {
+        "gallery_headline": "בינוי",
+        "gallery_image": "בינוי.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_construction"
+      },
+      {
+        "gallery_headline": "תחבורה",
+        "gallery_image": "תחבורה.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_transportation"
+      },
+      {
+        "gallery_headline": "רמת חיים",
+        "gallery_image": "רמת חיים.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_wellbeing"
+      },
+      {
+        "gallery_headline": "חינוך והשכלה",
+        "gallery_image": "חינוך והשכלה.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_education"
+      },
+      {
+        "gallery_headline": "תרבות ופנאי",
+        "gallery_image": "תרבות ופנאי.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_culture"
+      },
+      {
+        "gallery_headline": "בריאות",
+        "gallery_image": "בריאות.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_health"
+      },
+      {
+        "gallery_headline": "שירותי רווחה וביטוח לאומי",
+        "gallery_image": "שירותי רווחה וביטוח לאומי.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_wellfare"
+      },
+      {
+        "gallery_headline": "סדר ציבורי",
+        "gallery_image": "סדר ציבורי.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_order"
+      },
+      {
+        "gallery_headline": "תשתיות ושירותים עירוניים",
+        "gallery_image": "תשתיות ושירותים עירוניים.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_infrastructures"
+      },
+      {
+        "gallery_headline": "עובדי העירייה",
+        "gallery_image": "עובדי העירייה.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_employees"
+      },
+      {
+        "gallery_headline": "ממשל מקומי",
+        "gallery_image": "ממשל מקומי.png",
+        "link": "https://opendata.haifa.muni.il/dataset/stat_local_goverment"
+      }
+    ]
