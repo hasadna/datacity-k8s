@@ -153,3 +153,11 @@ gisFetcherInstanceOrganizationWorkflows:
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Other_Public/MapServer/8
         target_package_id: traffic_cameras
         schedule: "51 0 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-parking-cameras
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Cameras_Public/MapServer/10
+        target_package_id: parking_cameras
+        schedule: "21 0 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-parking-cameras-20min
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Cameras_Public/MapServer/12
+        target_package_id: parking_cameras_20min
+        schedule: "25 0 * * *"  # python3 workflows/bin/get_schedule.py daily
