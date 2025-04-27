@@ -177,11 +177,11 @@ gisFetcherInstanceOrganizationWorkflows:
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/1
         target_package_id: shimurpreservationareas
         schedule: "45 17 * * *"  # python3 workflows/bin/get_schedule.py daily
-      - name_suffix: haifa-unesco_declaration_buffer
+      - name_suffix: haifa-unesco-declaration-buffer
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/12
         target_package_id: unesco_declaration_buffer
         schedule: "45 19 * * *"  # python3 workflows/bin/get_schedule.py daily
-      - name_suffix: haifa-clean_air
+      - name_suffix: haifa-clean-air
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/7
         target_package_id: clean_air
         schedule: "45 20 * * *"  # python3 workflows/bin/get_schedule.py daily
