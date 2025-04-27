@@ -189,4 +189,31 @@ gisFetcherInstanceOrganizationWorkflows:
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Signs_Public/MapServer/4
         target_package_id: funicular
         schedule: "45 21 * * *"  # python3 workflows/bin/get_schedule.py daily
-        
+      - name_suffix: haifa-unesco-declaration
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/11
+        target_package_id: unesco_declaration
+        schedule: "45 22 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-tat-rova
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Stat_Public/MapServer/4
+        target_package_id: tat_rova
+        schedule: "45 23 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-streets
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Stat_Public/MapServer/1
+        target_package_id: streets
+        schedule: "45 1 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-stat-areas
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Stat_Public/MapServer/3
+        target_package_id: stat_areas
+        schedule: "45 2 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-rova
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Stat_Public/MapServer/5
+        target_package_id: rova
+        schedule: "45 3 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-neighborhood
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Stat_Public/MapServer/2
+        target_package_id: neighborhood
+        schedule: "45 4 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-education
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Edu_Public/MapServer/8
+        target_package_id: education
+        schedule: "45 4 * * *"  # python3 workflows/bin/get_schedule.py daily
