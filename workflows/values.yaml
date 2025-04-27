@@ -169,3 +169,7 @@ gisFetcherInstanceOrganizationWorkflows:
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/4
         target_package_id: sekreishimurcompleted
         schedule: "45 15 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-sikreishimurinexecution
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/3
+        target_package_id: sikreishimurinexecution
+        schedule: "45 16 * * *"  # python3 workflows/bin/get_schedule.py daily
