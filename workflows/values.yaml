@@ -173,3 +173,20 @@ gisFetcherInstanceOrganizationWorkflows:
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/3
         target_package_id: sikreishimurinexecution
         schedule: "45 16 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-shimurpreservationareas
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/1
+        target_package_id: shimurpreservationareas
+        schedule: "45 17 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-unesco_declaration_buffer
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/12
+        target_package_id: unesco_declaration_buffer
+        schedule: "45 19 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-clean_air
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/7
+        target_package_id: clean_air
+        schedule: "45 20 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-funicular
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Signs_Public/MapServer/4
+        target_package_id: funicular
+        schedule: "45 21 * * *"  # python3 workflows/bin/get_schedule.py daily
+        
