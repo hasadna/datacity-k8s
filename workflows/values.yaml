@@ -216,4 +216,8 @@ gisFetcherInstanceOrganizationWorkflows:
       - name_suffix: haifa-education
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Edu_Public/MapServer/8
         target_package_id: education
-        schedule: "45 4 * * *"  # python3 workflows/bin/get_schedule.py daily
+        schedule: "45 5 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-blg_shimur
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Shimur_Public/MapServer/0
+        target_package_id: blg_shimur
+        schedule: "45 6 * * *"  # python3 workflows/bin/get_schedule.py daily
