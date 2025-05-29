@@ -9,7 +9,9 @@ spec:
       - name: INSTANCE_NAME
       - name: SYSADMIN_NAME
       - name: NEW_SYSADMIN_PASSWORD  # required for new users - the new user's password
+        default: ""
       - name: NEW_SYSADMIN_EMAIL  # required for new users - the new user's email
+        default: ""
   templates:
     - name: cco-set-sysadmin
       inputs:
