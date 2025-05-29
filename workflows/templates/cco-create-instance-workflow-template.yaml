@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: cco-update-instance
+  name: cco-create-instance
 spec:
-  entrypoint: cco-update-instance
+  entrypoint: cco-create-instance
   arguments:
     parameters:
       - name: INSTANCE_NAME
@@ -11,7 +11,7 @@ spec:
       - name: S3_FILESTORE_AWS_ACCESS_KEY_ID
       - name: S3_FILESTORE_AWS_SECRET_ACCESS_KEY
   templates:
-    - name: cco-update-instance
+    - name: cco-create-instance
       inputs:
         parameters:
           - name: INSTANCE_NAME
