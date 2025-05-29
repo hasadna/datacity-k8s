@@ -9,9 +9,9 @@ spec:
       - name: INSTANCE_NAME
       - name: SYSADMIN_NAME
       - name: NEW_SYSADMIN_PASSWORD  # required for new users - the new user's password
-        default: ""
+        default: "-"
       - name: NEW_SYSADMIN_EMAIL  # required for new users - the new user's email
-        default: ""
+        default: "-"
   templates:
     - name: cco-set-sysadmin
       inputs:
@@ -71,7 +71,7 @@ spec:
             INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]') &&\
             POD_NAME=$(kubectl -n $INSTANCE_ID get pods -l app=ckan -o json | jq -r ".items[0].metadata.name") &&\
             echo $INSTANCE_ID $POD_NAME &&\
-            if [ "${NEW_SYSADMIN_EMAIL}" == "" ]; then
+            if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
               kubectl -n $INSTANCE_ID exec $POD_NAME -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
             else
               echo y | kubectl -n $INSTANCE_ID exec -i $POD_NAME -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
