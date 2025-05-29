@@ -55,6 +55,7 @@ spec:
           - -c
           - |
             set -e
+            sleep 99999999
             cd /datacity-k8s
             gcloud auth activate-service-account --key-file=/root/service_account_key.json
             gcloud config set project datacity-k8s
