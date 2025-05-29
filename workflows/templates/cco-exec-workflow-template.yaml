@@ -4,6 +4,10 @@ metadata:
   name: cco-exec
 spec:
   entrypoint: cco-exec
+  arguments:
+    parameters:
+      - name: exec_script
+        default: ckan-cloud-operator --help
   templates:
     - name: cco-exec
       inputs:
