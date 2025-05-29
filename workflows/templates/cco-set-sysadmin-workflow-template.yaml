@@ -1,0 +1,76 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: cco-set-sysadmin
+spec:
+  entrypoint: cco-set-sysadmin
+  arguments:
+    parameters:
+      - name: INSTANCE_NAME
+      - name: SYSADMIN_NAME
+      - name: NEW_SYSADMIN_PASSWORD  # required for new users - the new user's password
+      - name: NEW_SYSADMIN_EMAIL  # required for new users - the new user's email
+  templates:
+    - name: cco-set-sysadmin
+      inputs:
+        parameters:
+          - name: INSTANCE_NAME
+          - name: SYSADMIN_NAME
+          - name: NEW_SYSADMIN_PASSWORD
+          - name: NEW_SYSADMIN_EMAIL
+      volumes:
+        - name: service-account-key
+          secret:
+            secretName: cco-service-account-key
+        - name: cco-dir
+          emptyDir: {}
+        - name: datacity-k8s
+          emptyDir: {}
+      initContainers:
+        - name: cco-init
+          image: datacity/ckan-cloud-operator
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: service-account-key
+              mountPath: /mnt/service-account-key
+            - name: cco-dir
+              mountPath: /mnt/cco_dir
+            - name: datacity-k8s
+              mountPath: /mnt/datacity_k8s
+          args:
+            - -c
+            - |
+              cp /mnt/service-account-key/service_account_key.json /mnt/cco_dir &&\
+              cd /mnt/datacity_k8s &&\
+              curl -sLO https://github.com/hasadna/datacity-k8s/archive/refs/heads/master.zip &&\
+              unzip master.zip &&\
+              mv datacity-k8s-master/* ./
+      container:
+        image: datacity/ckan-cloud-operator
+        imagePullPolicy: Always
+        volumeMounts:
+          - name: cco-dir
+            mountPath: /root
+          - name: datacity-k8s
+            mountPath: /datacity-k8s
+        args:
+          - -c
+          - |
+            set -e
+            cd /datacity-k8s
+            gcloud auth activate-service-account --key-file=/root/service_account_key.json
+            gcloud config set project datacity-k8s
+            gcloud container clusters get-credentials datacity --zone europe-west1-d
+            helm init -c
+            INSTANCE_NAME="{{ "{{inputs.parameters.INSTANCE_NAME}}" }}"
+            SYSADMIN_NAME="{{ "{{inputs.parameters.SYSADMIN_NAME}}" }}"
+            NEW_SYSADMIN_PASSWORD="{{ "{{inputs.parameters.NEW_SYSADMIN_PASSWORD}}" }}"
+            NEW_SYSADMIN_EMAIL="{{ "{{inputs.parameters.NEW_SYSADMIN_EMAIL}}" }}"
+            INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]') &&\
+            POD_NAME=$(kubectl -n $INSTANCE_ID get pods -l app=ckan -o json | jq -r ".items[0].metadata.name") &&\
+            echo $INSTANCE_ID $POD_NAME &&\
+            if [ "${NEW_SYSADMIN_EMAIL}" == "" ]; then
+              kubectl -n $INSTANCE_ID exec $POD_NAME -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
+            else
+              echo y | kubectl -n $INSTANCE_ID exec -i $POD_NAME -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
+            fi
