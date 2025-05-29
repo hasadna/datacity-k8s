@@ -40,9 +40,9 @@ spec:
             - |
               cp /mnt/service-account-key/service_account_key.json /mnt/cco_dir &&\
               cd /mnt/datacity_k8s &&\
-              curl -sLO https://github.com/hasadna/hasadna-k8s/archive/refs/heads/master.zip &&\
+              curl -sLO https://github.com/hasadna/datacity-k8s/archive/refs/heads/master.zip &&\
               unzip master.zip &&\
-              mv hasadna-k8s-master/* ./
+              mv datacity-k8s-master/* ./
       container:
         image: datacity/ckan-cloud-operator
         imagePullPolicy: Always
