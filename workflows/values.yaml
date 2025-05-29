@@ -2,6 +2,12 @@
 # this is important because all workflows run on the dgp server
 concurrency: 4
 
+secrets:
+  - name: cco-service-account-key
+    data:
+      "service_account_key.json": "~vault:Projects/datacity/ckan-cloud-operator:service_account_key.json~"
+
+
 genericFetcherInstanceOrganizationWorkflows:
   rehovot:
     muni:

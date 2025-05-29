@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: cco-exec
+spec:
+  entrypoint: cco-exec
+  templates:
+    - name: cco-exec
+      inputs:
+        parameters:
+          - name: exec_script
+      volumes:
+        - name: service-account-key
+          secret:
+            secretName: cco-service-account-key
+        - name: cco_dir
+          emptyDir: {}
+        - name: datacity_k8s
+          emptyDir: {}
+      initContainers:
+        - name: init
+          image: datacity/ckan-cloud-operator
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: service-account-key
+              mountPath: /mnt/service-account-key
+            - name: cco_dir
+              mountPath: /mnt/cco_dir
+            - name: datacity_k8s
+              mountPath: /mnt/datacity_k8s
+          args:
+            - -c
+            - |
+              cp /mnt/service-account-key/service_account_key.json /mnt/cco_dir &&\
+              cd /mnt/datacity_k8s &&\
+              curl -sLO https://github.com/hasadna/hasadna-k8s/archive/refs/heads/master.zip &&\
+              unzip master.zip &&\
+              mv hasadna-k8s-master/* ./
+      container:
+        image: datacity/ckan-cloud-operator
+        imagePullPolicy: Always
+        volumeMounts:
+          - name: cco_dir
+            mountPath: /root
+          - name: datacity_k8s
+            mountPath: /datacity-k8s
+        args:
+          - -c
+          - |
+            gcloud auth activate-service-account --key-file=/root/service_account_key.json &&\
+            gcloud config set project datacity-k8s &&\
+            gcloud container clusters get-credentials datacity --zone europe-west1-d &&\
+            helm init -c &&\
+            eval "${EXEC_SCRIPT}"
