@@ -17,9 +17,9 @@ spec:
         - name: service-account-key
           secret:
             secretName: cco-service-account-key
-        - name: cco_dir
+        - name: cco-dir
           emptyDir: {}
-        - name: datacity_k8s
+        - name: datacity-k8s
           emptyDir: {}
       initContainers:
         - name: init
@@ -28,9 +28,9 @@ spec:
           volumeMounts:
             - name: service-account-key
               mountPath: /mnt/service-account-key
-            - name: cco_dir
+            - name: cco-dir
               mountPath: /mnt/cco_dir
-            - name: datacity_k8s
+            - name: datacity-k8s
               mountPath: /mnt/datacity_k8s
           args:
             - -c
@@ -44,9 +44,9 @@ spec:
         image: datacity/ckan-cloud-operator
         imagePullPolicy: Always
         volumeMounts:
-          - name: cco_dir
+          - name: cco-dir
             mountPath: /root
-          - name: datacity_k8s
+          - name: datacity-k8s
             mountPath: /datacity-k8s
         args:
           - -c
