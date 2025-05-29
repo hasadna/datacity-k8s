@@ -22,7 +22,7 @@ spec:
         - name: datacity-k8s
           emptyDir: {}
       initContainers:
-        - name: init
+        - name: cco-init
           image: datacity/ckan-cloud-operator
           imagePullPolicy: Always
           volumeMounts:
