@@ -64,6 +64,7 @@ spec:
             gcloud config set project datacity-k8s
             gcloud container clusters get-credentials datacity --zone europe-west1-d
             helm init -c
+            sleep 9999999
             INSTANCE_NAME="{{ "{{inputs.parameters.INSTANCE_NAME}}" }}"
             SYSADMIN_NAME="{{ "{{inputs.parameters.SYSADMIN_NAME}}" }}"
             NEW_SYSADMIN_PASSWORD="{{ "{{inputs.parameters.NEW_SYSADMIN_PASSWORD}}" }}"
