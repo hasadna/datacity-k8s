@@ -1,18 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: cco-exec
+  name: cco-update-instance
 spec:
-  entrypoint: cco-exec
+  entrypoint: cco-update-instance
   arguments:
     parameters:
-      - name: exec_script
-        default: ckan-cloud-operator --help
+      - name: instance_name
+        default: test
+      - name: recreate_helm
+        default: "false"
   templates:
-    - name: cco-exec
+    - name: cco-update-instance
       inputs:
         parameters:
-          - name: exec_script
+          - name: instance_name
+          - name: recreate_helm
       volumes:
         - name: service-account-key
           secret:
@@ -56,4 +59,24 @@ spec:
             gcloud config set project datacity-k8s
             gcloud container clusters get-credentials datacity --zone europe-west1-d
             helm init -c
-            eval "{{ "{{inputs.parameters.exec_script}}" }}"
+            INSTANCE_NAME="{{ "{{inputs.parameters.instance_name}}" }}"
+            RECREATE_HELM="{{ "{{inputs.parameters.recreate_helm}}" }}"
+            if ! [ -e "instances/${INSTANCE_NAME}/values.yaml" ]; then
+              echo missing instance values
+              exit 1
+            fi
+            if [ "${RECREATE_HELM}" = "true" ]; then
+              INSTANCE_ID=$(ckan-cloud-operator ckan instance get ${INSTANCE_NAME} | grep '^id: ' | cut -d' ' -f2)
+              echo INSTANCE_ID=$INSTANCE_ID
+              echo deleting helm...
+              helm --tiller-namespace ckan-cloud-provider-ckan-deployment-helm delete ckan-cloud-$INSTANCE_ID
+              echo deleting helm configmaps...
+              kubectl -n ckan-cloud-provider-ckan-deployment-helm delete configmap -l NAME=ckan-cloud-$INSTANCE_ID
+              echo deleting ingresses...
+              kubectl -n $INSTANCE_ID delete ingress --all
+              echo OK
+            fi
+            ckan-cloud-operator ckan instance update ${INSTANCE_NAME} \
+              --override-spec-file /datacity-k8s/instances/${INSTANCE_NAME}/values.yaml \
+              --ckan-cloud-docker-latest-tag $(cat /datacity-k8s/instances/ckan-cloud-docker-latest-tag.txt) \
+              --persist-overrides --wait-ready
