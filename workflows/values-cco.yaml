@@ -24,3 +24,56 @@ ccoExecWorkflowTemplates:
       else
         echo y | exec $instance_id_ckan_exec ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
       fi
+
+  - name: create-instance
+    set_instance_id: false
+    parameters:
+      - name: INSTANCE_NAME
+      - name: S3_FILESTORE_AWS_BUCKET_NAME
+      - name: S3_FILESTORE_AWS_ACCESS_KEY_ID
+      - name: S3_FILESTORE_AWS_SECRET_ACCESS_KEY
+    exec_script: |
+      if ! [ -e "instances/${INSTANCE_NAME}/values.yaml" ]; then
+        echo missing instance values
+        exit 1
+      fi
+      if ( [ "${S3_FILESTORE_AWS_ACCESS_KEY_ID}" == "" ] || [ "${S3_FILESTORE_AWS_SECRET_ACCESS_KEY}" == "" ] || [ "${S3_FILESTORE_AWS_BUCKET_NAME}" == "" ] ); then
+        echo missing S3 values
+        exit 1
+      fi
+      if ! kubectl -n ckan-cloud create secret generic ckan-instance-${INSTANCE_NAME} \
+            --from-literal S3_FILESTORE_AWS_HOST_NAME=https://storage.googleapis.com \
+            --from-literal S3_FILESTORE_AWS_ACCESS_KEY_ID=${S3_FILESTORE_AWS_ACCESS_KEY_ID} \
+            --from-literal S3_FILESTORE_AWS_SECRET_ACCESS_KEY=${S3_FILESTORE_AWS_SECRET_ACCESS_KEY} \
+            --from-literal S3_FILESTORE_AWS_BUCKET_NAME=${S3_FILESTORE_AWS_BUCKET_NAME} \
+            --from-literal S3_FILESTORE_AWS_REGION_NAME=europe-west1; then
+          true
+      fi
+      exec ckan-cloud-operator ckan instance create helm \
+        --instance-name ${INSTANCE_NAME} \
+        /datacity-k8s/instances/${INSTANCE_NAME}/values.yaml
+
+  - name: update-instance
+    set_instance_id: true
+    parameters:
+      - name: INSTANCE_NAME
+      - name: RECREATE_HELM
+        default: "false"
+    exec_script: |
+      if ! [ -e "instances/${INSTANCE_NAME}/values.yaml" ]; then
+        echo missing instance values
+        exit 1
+      fi
+      if [ "${RECREATE_HELM}" = "true" ]; then
+        echo deleting helm...
+        helm --tiller-namespace ckan-cloud-provider-ckan-deployment-helm delete ckan-cloud-$INSTANCE_ID
+        echo deleting helm configmaps...
+        kubectl -n ckan-cloud-provider-ckan-deployment-helm delete configmap -l NAME=ckan-cloud-$INSTANCE_ID
+        echo deleting ingresses...
+        kubectl -n $INSTANCE_ID delete ingress --all
+        echo OK
+      fi
+      ckan-cloud-operator ckan instance update ${INSTANCE_NAME} \
+        --override-spec-file /datacity-k8s/instances/${INSTANCE_NAME}/values.yaml \
+        --ckan-cloud-docker-latest-tag $(cat /datacity-k8s/instances/ckan-cloud-docker-latest-tag.txt) \
+        --persist-overrides --wait-ready
