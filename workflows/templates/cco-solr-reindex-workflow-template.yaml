@@ -11,7 +11,8 @@ spec:
         default: "rebuild"
   steps:
     - - name: cco-solr-reindex
-        template: cco-set-sysadmin
+        templateRef:
+          name: cco-set-sysadmin
         arguments:
           parameters:
             - name: INSTANCE_NAME
