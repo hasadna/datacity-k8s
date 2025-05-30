@@ -61,4 +61,4 @@ spec:
           ) 2>&1
       outputs:
         result: |
-          {{ "outputs.parameters.result" }}
+          {{ "{{outputs.parameters.result}}" }}
