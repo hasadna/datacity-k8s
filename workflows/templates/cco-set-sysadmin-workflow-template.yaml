@@ -6,7 +6,7 @@
     dict "name" "SYSADMIN_NAME"
     dict "name" "NEW_SYSADMIN_PASSWORD" "default" "-"
     dict "name" "NEW_SYSADMIN_EMAIL" "default" "-"
-  )"
+  )
   "exec_script" "
     if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
       kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
