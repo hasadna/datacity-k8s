@@ -33,7 +33,8 @@ spec:
                 - name: exec_script
                   value: |
                     set_instance_id={{ "{{ inputs.parameters.set_instance_id | quote }}" }}
-                    {{ range .parameters }}{{ .name }}={{ printf "{{ inputs.parameters.%s | quote }}" .name }}
+                    {{ range .parameters }}
+                    {{ .name }}={{ printf "{{ inputs.parameters.%s | quote }}" .name }}
                     {{ end }}
                     
                     if [ "$set_instance_id" == "true" ]; then
