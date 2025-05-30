@@ -39,4 +39,17 @@ spec:
                       fi
                       {{ .exec_script | nindent 22 }}
 ---
+{{- if .cronSchedule }}
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: cco-{{ .name }}
+spec:
+  schedule: {{ .cronSchedule | quote }}
+  concurrencyPolicy: Forbid
+  workflowSpec:
+    workflowTemplateRef:
+      name: cco-{{ .name }}
+---
+{{- end }}
 {{- end }}

@@ -79,6 +79,7 @@ ccoExecWorkflowTemplates:
         --persist-overrides --wait-ready
 
   - name: update-page-views
+    cronSchedule: "16 2 * * *"
     set_instance_id: false
     exec_script: |
       cd /datacity-k8s/instances
