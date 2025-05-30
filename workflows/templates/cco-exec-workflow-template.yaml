@@ -56,3 +56,5 @@ spec:
           gcloud container clusters get-credentials datacity --zone europe-west1-d
           helm init -c
           {{ "{{inputs.parameters.exec_script}}" }}
+      outputs:
+        result: "OK!"
