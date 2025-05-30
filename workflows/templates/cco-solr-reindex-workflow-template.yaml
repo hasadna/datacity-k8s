@@ -19,6 +19,4 @@ spec:
             arguments:
               parameters:
                 - name: INSTANCE_NAME
-                  value: {{ "{{ workflow.parameters.INSTANCE_NAME }}" | quote }}
                 - name: ARGS
-                  value: {{ "{{ workflow.parameters.ARGS }}" | quote }}

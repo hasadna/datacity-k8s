@@ -14,6 +14,14 @@ spec:
         default: "-"
   templates:
     - name: cco-set-sysadmin
+      inputs:
+        parameters:
+          - name: INSTANCE_NAME
+          - name: SYSADMIN_NAME
+          - name: NEW_SYSADMIN_PASSWORD
+            default: "-"
+          - name: NEW_SYSADMIN_EMAIL
+            default: "-"
       volumes:
         - name: service-account-key
           secret:
@@ -51,13 +59,13 @@ spec:
             mountPath: /datacity-k8s
         env:
           - name: INSTANCE_NAME
-            value: {{ "{{workflow.parameters.INSTANCE_NAME}}" | quote }}
+            value: {{ "{{inputs.parameters.INSTANCE_NAME}}" | quote }}
           - name: SYSADMIN_NAME
-            value: {{ "{{workflow.parameters.SYSADMIN_NAME}}" | quote }}
+            value: {{ "{{inputs.parameters.SYSADMIN_NAME}}" | quote }}
           - name: NEW_SYSADMIN_PASSWORD
-            value: {{ "{{workflow.parameters.NEW_SYSADMIN_PASSWORD}}" | quote }}
+            value: {{ "{{inputs.parameters.NEW_SYSADMIN_PASSWORD}}" | quote }}
           - name:  NEW_SYSADMIN_EMAIL
-            value: {{ "{{workflow.parameters.NEW_SYSADMIN_EMAIL}}" | quote }}
+            value: {{ "{{inputs.parameters.NEW_SYSADMIN_EMAIL}}" | quote }}
         source: |
           set -e
           cd /datacity-k8s
