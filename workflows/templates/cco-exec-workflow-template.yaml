@@ -56,6 +56,6 @@ spec:
           gcloud config set project datacity-k8s
           gcloud container clusters get-credentials datacity --zone europe-west1-d
           helm init -c
-          {{ "{{inputs.parameters.exec_script}}" }}
-      outputs:
-        result: "OK!"
+          (
+            {{ "{{inputs.parameters.exec_script}}" }}
+          ) 2>&1
