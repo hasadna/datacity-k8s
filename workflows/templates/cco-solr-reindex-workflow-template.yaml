@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: cco-solr-reindex
+spec:
+  entrypoint: cco-solr-reindex
+  arguments:
+    parameters:
+      - name: INSTANCE_NAME
+      - name: ARGS
+        default: "rebuild"
+  steps:
+    - - name: cco-solr-reindex
+        template: cco-set-sysadmin
+        arguments:
+          parameters:
+            - name: INSTANCE_NAME
+              value: {{ "{{ workflow.parameters.INSTANCE_NAME }}" | quote }}
+            - name: ARGS
+              value: {{ "{{ workflow.parameters.ARGS }}" | quote }}
