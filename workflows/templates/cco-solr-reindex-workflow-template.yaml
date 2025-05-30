@@ -22,3 +22,7 @@ spec:
                   value: {{ "{{workflow.parameters.INSTANCE_NAME}}" | quote }}
                 - name: ARGS
                   value: {{ "{{workflow.parameters.ARGS}}" | quote }}
+                - name: NEW_SYSADMIN_PASSWORD
+                  value: "-"
+                - name: NEW_SYSADMIN_EMAIL
+                  value: "-"
