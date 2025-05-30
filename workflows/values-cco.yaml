@@ -79,7 +79,7 @@ ccoExecWorkflowTemplates:
         --persist-overrides --wait-ready
 
   - name: update-page-views
-    set_instance_id: true
+    set_instance_id: false
     exec_script: |
       cd /datacity-k8s/instances
       RES=0
