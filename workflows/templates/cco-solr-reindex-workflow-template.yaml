@@ -1,31 +1,12 @@
-apiVersion: argoproj.io/v1alpha1
-kind: WorkflowTemplate
-metadata:
-  name: cco-solr-reindex
-spec:
-  entrypoint: cco-solr-reindex
-  arguments:
-    parameters:
-      - name: INSTANCE_NAME
-      - name: ARGS
-        default: "rebuild"
-  templates:
-    - name: cco-solr-reindex
-      inputs:
-        parameters:
-          - name: INSTANCE_NAME
-          - name: ARGS
-      steps:
-        - - name: cco-solr-reindex
-            templateRef:
-              name: cco-exec
-              template: cco-exec
-            arguments:
-              parameters:
-                - name: exec_script
-                  value: |
-                    INSTANCE_NAME={{ "{{inputs.parameters.INSTANCE_NAME}}" | quote }}
-                    ARGS={{ "{{inputs.parameters.ARGS}}" | quote }}
-                    INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
-                    echo $INSTANCE_ID
-                    kubectl -n $INSTANCE_ID exec deploy/ckan -- ckan-paster --plugin=ckan search-index -c /etc/ckan/production.ini $ARGS
+{{-
+  include "cco.exec" (
+  dict
+    "name" "solr-reindex"
+    "set_instance_id" "true"
+    "parameters" (list
+      (dict "name" "INSTANCE_NAME")
+      (dict "name" "ARGS" "default" "rebuild")
+    )
+    "exec_script" `exec $instance_id_ckan_exec ckan-paster --plugin=ckan search-index -c /etc/ckan/production.ini $ARGS`
+  )
+}}
