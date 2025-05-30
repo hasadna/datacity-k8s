@@ -20,61 +20,23 @@ spec:
           - name: SYSADMIN_NAME
           - name: NEW_SYSADMIN_PASSWORD
           - name: NEW_SYSADMIN_EMAIL
-      volumes:
-        - name: service-account-key
-          secret:
-            secretName: cco-service-account-key
-        - name: cco-dir
-          emptyDir: {}
-        - name: datacity-k8s
-          emptyDir: {}
-      initContainers:
-        - name: cco-init
-          image: datacity/ckan-cloud-operator
-          imagePullPolicy: Always
-          volumeMounts:
-            - name: service-account-key
-              mountPath: /mnt/service-account-key
-            - name: cco-dir
-              mountPath: /mnt/cco_dir
-            - name: datacity-k8s
-              mountPath: /mnt/datacity_k8s
-          args:
-            - -c
-            - |
-              cp /mnt/service-account-key/service_account_key.json /mnt/cco_dir &&\
-              cd /mnt/datacity_k8s &&\
-              curl -sLO https://github.com/hasadna/datacity-k8s/archive/refs/heads/master.zip &&\
-              unzip master.zip &&\
-              mv datacity-k8s-master/* ./
-      script:
-        image: datacity/ckan-cloud-operator
-        imagePullPolicy: Always
-        volumeMounts:
-          - name: cco-dir
-            mountPath: /root
-          - name: datacity-k8s
-            mountPath: /datacity-k8s
-        env:
-          - name: INSTANCE_NAME
-            value: {{ "{{inputs.parameters.INSTANCE_NAME}}" | quote }}
-          - name: SYSADMIN_NAME
-            value: {{ "{{inputs.parameters.SYSADMIN_NAME}}" | quote }}
-          - name: NEW_SYSADMIN_PASSWORD
-            value: {{ "{{inputs.parameters.NEW_SYSADMIN_PASSWORD}}" | quote }}
-          - name:  NEW_SYSADMIN_EMAIL
-            value: {{ "{{inputs.parameters.NEW_SYSADMIN_EMAIL}}" | quote }}
-        source: |
-          set -e
-          cd /datacity-k8s
-          gcloud auth activate-service-account --key-file=/root/service_account_key.json
-          gcloud config set project datacity-k8s
-          gcloud container clusters get-credentials datacity --zone europe-west1-d
-          helm init -c
-          INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
-          echo $INSTANCE_ID $POD_NAME
-          if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
-            kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
-          else
-            echo y | kubectl -n $INSTANCE_ID exec -i deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
-          fi
+      steps:
+        - - name: cco-set-sysadmin
+            templateRef:
+              name: cco-exec
+              template: cco-exec
+            arguments:
+              parameters:
+                - name: exec_script
+                  value: |
+                    INSTANCE_NAME={{ "{{inputs.parameters.INSTANCE_NAME}}" | quote }}
+                    SYSADMIN_NAME={{ "{{inputs.parameters.SYSADMIN_NAME}}" | quote }}
+                    NEW_SYSADMIN_PASSWORD={{ "{{inputs.parameters.NEW_SYSADMIN_PASSWORD}}" | quote }}
+                    NEW_SYSADMIN_EMAIL={{ "{{inputs.parameters.NEW_SYSADMIN_EMAIL}}" | quote }}
+                    INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
+                    echo $INSTANCE_ID $POD_NAME
+                    if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
+                      kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
+                    else
+                      echo y | kubectl -n $INSTANCE_ID exec -i deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
+                    fi
