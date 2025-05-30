@@ -1,5 +1,5 @@
 {{-
-  include "cco.exec" dict
+  include "cco.exec" (dict
   "name" "set-sysadmin"
   "parameters" (list
     dict "name" "INSTANCE_NAME"
@@ -13,5 +13,5 @@
     else
       echo y | kubectl -n $INSTANCE_ID exec -i deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
     fi
-  `
+  `)
 }}
