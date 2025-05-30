@@ -37,5 +37,5 @@ spec:
                         echo $INSTANCE_ID
                         instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
                       fi
-                      {{ .exec_script | nindent 20 }}
+                      {{ .exec_script | nindent 22 }}
 {{ end }}
