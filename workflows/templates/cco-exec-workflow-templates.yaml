@@ -1,4 +1,4 @@
-{{- range .Values.cco-exec-workflow-templates
+{{- range .Values.ccoExecWorkflowTemplates }}
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:

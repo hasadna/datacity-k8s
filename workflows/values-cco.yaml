@@ -1,4 +1,4 @@
-cco-exec-workflow-templates:
+ccoExecWorkflowTemplates:
 
   - name: solr-reindex
     set_instance_id: true
