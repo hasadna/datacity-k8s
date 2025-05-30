@@ -9,14 +9,15 @@ spec:
       - name: INSTANCE_NAME
       - name: ARGS
         default: "rebuild"
-  steps:
-    - - name: cco-solr-reindex
-        templateRef:
-          name: cco-set-sysadmin
-          template: cco-set-sysadmin
-        arguments:
-          parameters:
-            - name: INSTANCE_NAME
-              value: {{ "{{ workflow.parameters.INSTANCE_NAME }}" | quote }}
-            - name: ARGS
-              value: {{ "{{ workflow.parameters.ARGS }}" | quote }}
+  templates:
+    - name: cco-solr-reindex
+      steps:
+        - - name: cco-solr-reindex
+            templateRef:
+              name: cco-set-sysadmin
+            arguments:
+              parameters:
+                - name: INSTANCE_NAME
+                  value: {{ "{{ workflow.parameters.INSTANCE_NAME }}" | quote }}
+                - name: ARGS
+                  value: {{ "{{ workflow.parameters.ARGS }}" | quote }}
