@@ -1,4 +1,4 @@
-{{- define "cco.exec" }}
+{{ define "cco.exec" }}
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
@@ -10,7 +10,7 @@ spec:
       - name: set_instance_id
         default: "false"
       {{- range .parameters }}
-      - name: {{ .name }}
+      - name: {{ .name | quote }}
         {{- if .default }}
         default: {{ .default | quote }}
         {{- end }}
@@ -21,7 +21,7 @@ spec:
         parameters:
           - name: set_instance_id
           {{- range .parameters }}
-          - name: {{ .name }}
+          - name: {{ .name | quote }}
           {{- end }}
       steps:
         - - name: cco-{{ .name }}
@@ -41,5 +41,5 @@ spec:
                       echo $INSTANCE_ID
                       instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
                     fi
-                    {{ .exec_script }}
-{{- end }}
+                    {{ .exec_script | nindent 20 }}
+{{ end }}
