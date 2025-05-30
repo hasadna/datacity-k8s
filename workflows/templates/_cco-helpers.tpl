@@ -32,9 +32,9 @@ spec:
               parameters:
                 - name: exec_script
                   value: |
-                      set_instance_id={{ "{{ inputs.parameters.set_instance_id | quote }}" }}
+                      set_instance_id="{{ "{{inputs.parameters.set_instance_id}}" }}"
                       {{ range .parameters }}
-                      {{ .name }}={{ printf "{{ inputs.parameters.%s | quote }}" .name }}
+                      {{ .name }}="{{ printf "{{inputs.parameters.%s}}" .name }}"
                       {{ end }}
                       if [ "$set_instance_id" == "true" ]; then
                         INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
