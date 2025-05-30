@@ -85,16 +85,19 @@ ccoExecWorkflowTemplates:
       RES=0
       for INSTANCE_NAME in $(ls --hide *.txt); do
           if cat ${INSTANCE_NAME}/values.yaml | grep 'enableCronJob_PageViewsTracking: true' >/dev/null; then
-              echo $INSTANCE_NAME &&\
-              if INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]') &&\
-                 echo $INSTANCE_ID &&\
-                 kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan tracking -c /etc/ckan/production.ini update 2020-07-01 &&\
-                 kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan search-index -c /etc/ckan/production.ini rebuild
-              then
-                 echo OK
+              echo $INSTANCE_NAME
+              INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
+              if [ "$INSTANCE_ID" == "" ]; then
+                  echo "Instance ID not found for $INSTANCE_NAME"
               else
-                 echo FAILURE
-                 RES=1
+                if kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan tracking -c /etc/ckan/production.ini update 2020-07-01 &&\
+                   kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan search-index -c /etc/ckan/production.ini rebuild
+                then
+                   echo OK
+                else
+                   echo FAILURE
+                   RES=1
+                fi
               fi
           fi
       done
