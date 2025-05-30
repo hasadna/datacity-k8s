@@ -10,9 +10,9 @@
   )
   "exec_script" `
     if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
-      exec $instance_id_ckan_exec -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
+      exec $instance_id_ckan_exec ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
     else
-      echo y | exec $instance_id_ckan_exec -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
+      echo y | exec $instance_id_ckan_exec ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
     fi
   `)
 }}
