@@ -11,18 +11,21 @@ spec:
         default: "rebuild"
   templates:
     - name: cco-solr-reindex
+      inputs:
+        parameters:
+          - name: INSTANCE_NAME
+          - name: ARGS
       steps:
         - - name: cco-solr-reindex
             templateRef:
-              name: cco-set-sysadmin
-              template: cco-set-sysadmin
+              name: cco-exec
+              template: cco-exec
             arguments:
               parameters:
-                - name: INSTANCE_NAME
-                  value: {{ "{{workflow.parameters.INSTANCE_NAME}}" | quote }}
-                - name: SYSADMIN_NAME
-                  value: {{ "{{workflow.parameters.ARGS}}" | quote }}
-                - name: NEW_SYSADMIN_PASSWORD
-                  value: "-"
-                - name: NEW_SYSADMIN_EMAIL
-                  value: "-"
+                - name: exec_script
+                  value: |
+                    INSTANCE_NAME={{ "{{inputs.parameters.INSTANCE_NAME}}" | quote }}
+                    ARGS={{ "{{inputs.parameters.ARGS}}" | quote }}
+                    INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
+                    echo $INSTANCE_ID
+                    kubectl -n $INSTANCE_ID exec deploy/ckan -- ckan-paster --plugin=ckan search-index -c /etc/ckan/production.ini $ARGS
