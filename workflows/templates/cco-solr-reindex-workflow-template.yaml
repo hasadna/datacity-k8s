@@ -15,6 +15,7 @@ spec:
         - - name: cco-solr-reindex
             templateRef:
               name: cco-set-sysadmin
+              template: cco-set-sysadmin
             arguments:
               parameters:
                 - name: INSTANCE_NAME
