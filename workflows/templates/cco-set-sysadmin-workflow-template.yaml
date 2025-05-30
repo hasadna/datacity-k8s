@@ -1,42 +1,17 @@
-apiVersion: argoproj.io/v1alpha1
-kind: WorkflowTemplate
-metadata:
-  name: cco-set-sysadmin
-spec:
-  entrypoint: cco-set-sysadmin
-  arguments:
-    parameters:
-      - name: INSTANCE_NAME
-      - name: SYSADMIN_NAME
-      - name: NEW_SYSADMIN_PASSWORD  # required for new users - the new user's password
-        default: "-"
-      - name: NEW_SYSADMIN_EMAIL  # required for new users - the new user's email
-        default: "-"
-  templates:
-    - name: cco-set-sysadmin
-      inputs:
-        parameters:
-          - name: INSTANCE_NAME
-          - name: SYSADMIN_NAME
-          - name: NEW_SYSADMIN_PASSWORD
-          - name: NEW_SYSADMIN_EMAIL
-      steps:
-        - - name: cco-set-sysadmin
-            templateRef:
-              name: cco-exec
-              template: cco-exec
-            arguments:
-              parameters:
-                - name: exec_script
-                  value: |
-                    INSTANCE_NAME={{ "{{inputs.parameters.INSTANCE_NAME}}" | quote }}
-                    SYSADMIN_NAME={{ "{{inputs.parameters.SYSADMIN_NAME}}" | quote }}
-                    NEW_SYSADMIN_PASSWORD={{ "{{inputs.parameters.NEW_SYSADMIN_PASSWORD}}" | quote }}
-                    NEW_SYSADMIN_EMAIL={{ "{{inputs.parameters.NEW_SYSADMIN_EMAIL}}" | quote }}
-                    INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
-                    echo $INSTANCE_ID
-                    if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
-                      kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
-                    else
-                      echo y | kubectl -n $INSTANCE_ID exec -i deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
-                    fi
+{{-
+  include "cco.exec" dict
+  "name" "set-sysadmin"
+  "parameters" (list
+    dict "name" "INSTANCE_NAME"
+    dict "name" "SYSADMIN_NAME"
+    dict "name" "NEW_SYSADMIN_PASSWORD" "default" "-"
+    dict "name" "NEW_SYSADMIN_EMAIL" "default" "-"
+  )"
+  "exec_script" "
+    if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
+      kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
+    else
+      echo y | kubectl -n $INSTANCE_ID exec -i deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
+    fi
+  "
+}}

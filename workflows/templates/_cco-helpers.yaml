@@ -1,0 +1,45 @@
+{{- define "cco.exec" }}
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: cco-{{ .name }}
+spec:
+  entrypoint: cco-{{ .name }}
+  arguments:
+    parameters:
+      - name: set_instance_id
+        default: "false"
+      {{- range .parameters }}
+      - name: {{ .name }}
+        {{- if .default }}
+        default: {{ .default | quote }}
+        {{- end }}
+      {{- end }}
+  templates:
+    - name: cco-{{ .name }}
+      inputs:
+        parameters:
+          - name: set_instance_id
+          {{- range .parameters }}
+          - name: {{ .name }}
+          {{- end }}
+      steps:
+        - - name: cco-{{ .name }}
+            templateRef:
+              name: cco-exec
+              template: cco-exec
+            arguments:
+              parameters:
+                - name: exec_script
+                  value: |
+                    {{- range .parameters }}
+                    {{ .name }}={{ printf "{{ inputs.parameters.%s | quote }}" .name }}
+                    {{- end }}
+                    set_instance_id={{ "{{ inputs.parameters.set_instance_id | quote }}" }}
+                    if [ "$set_instance_id" == "true" ]; then
+                      INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
+                      echo $INSTANCE_ID
+                      instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
+                    fi
+                    {{ .exec_script }}
+{{- end }}
