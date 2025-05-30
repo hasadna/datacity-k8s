@@ -31,16 +31,18 @@ spec:
             arguments:
               parameters:
                 - name: exec_script
-                  value: |
-                    set_instance_id={{ "{{ inputs.parameters.set_instance_id | quote }}" }}
-                    {{ range .parameters }}
-                    {{ .name }}={{ printf "{{ inputs.parameters.%s | quote }}" .name }}
-                    {{ end }}
-                    
-                    if [ "$set_instance_id" == "true" ]; then
-                      INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
-                      echo $INSTANCE_ID
-                      instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
-                    fi
-                    {{ .exec_script | nindent 20 }}
+                  valueFrom:
+                    expression: |
+                      `
+                      set_instance_id={{ "{{ inputs.parameters.set_instance_id | quote }}" }}
+                      {{ range .parameters }}
+                      {{ .name }}={{ printf "{{ inputs.parameters.%s | quote }}" .name }}
+                      {{ end }}
+                      if [ "$set_instance_id" == "true" ]; then
+                        INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
+                        echo $INSTANCE_ID
+                        instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
+                      fi
+                      {{ .exec_script | nindent 20 }}
+                      `
 {{ end }}
