@@ -19,8 +19,7 @@ spec:
             arguments:
               parameters:
                 - name: INSTANCE_NAME
-                  value: {{ "{{workflow.parameters.INSTANCE_NAME}}" | quote }}
-                - name: ARGS
+                - name: SYSADMIN_NAME
                   value: {{ "{{workflow.parameters.ARGS}}" | quote }}
                 - name: NEW_SYSADMIN_PASSWORD
                   value: "-"
