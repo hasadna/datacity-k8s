@@ -77,3 +77,25 @@ ccoExecWorkflowTemplates:
         --override-spec-file /datacity-k8s/instances/${INSTANCE_NAME}/values.yaml \
         --ckan-cloud-docker-latest-tag $(cat /datacity-k8s/instances/ckan-cloud-docker-latest-tag.txt) \
         --persist-overrides --wait-ready
+
+  - name: update-page-views
+    set_instance_id: true
+    exec_script: |
+      cd /datacity-k8s/instances
+      RES=0
+      for INSTANCE_NAME in $(ls --hide *.txt); do
+          if cat ${INSTANCE_NAME}/values.yaml | grep 'enableCronJob_PageViewsTracking: true' >/dev/null; then
+              echo $INSTANCE_NAME &&\
+              if INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]') &&\
+                 echo $INSTANCE_ID &&\
+                 kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan tracking -c /etc/ckan/production.ini update 2020-07-01 &&\
+                 kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan search-index -c /etc/ckan/production.ini rebuild
+              then
+                 echo OK
+              else
+                 echo FAILURE
+                 RES=1
+              fi
+          fi
+      done
+      exit $RES
