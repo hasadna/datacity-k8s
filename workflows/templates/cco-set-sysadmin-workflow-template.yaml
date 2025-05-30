@@ -2,10 +2,10 @@
   include "cco.exec" (dict
   "name" "set-sysadmin"
   "parameters" (list
-    dict "name" "INSTANCE_NAME"
-    dict "name" "SYSADMIN_NAME"
-    dict "name" "NEW_SYSADMIN_PASSWORD" "default" "-"
-    dict "name" "NEW_SYSADMIN_EMAIL" "default" "-"
+    (dict "name" "INSTANCE_NAME")
+    (dict "name" "SYSADMIN_NAME")
+    (dict "name" "NEW_SYSADMIN_PASSWORD" "default" "-")
+    (dict "name" "NEW_SYSADMIN_EMAIL" "default" "-")
   )
   "exec_script" `
     if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
