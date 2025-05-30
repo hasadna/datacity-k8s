@@ -7,8 +7,6 @@ spec:
   entrypoint: cco-{{ .name }}
   arguments:
     parameters:
-      - name: set_instance_id
-        default: "false"
       {{- range .parameters }}
       - name: {{ .name | quote }}
         {{- if .default }}
@@ -19,7 +17,6 @@ spec:
     - name: cco-{{ .name }}
       inputs:
         parameters:
-          - name: set_instance_id
           {{- range .parameters }}
           - name: {{ .name | quote }}
           {{- end }}
@@ -32,11 +29,10 @@ spec:
               parameters:
                 - name: exec_script
                   value: |
-                      set_instance_id="{{ "{{inputs.parameters.set_instance_id}}" }}"
                       {{ range .parameters }}
                       {{ .name }}="{{ printf "{{inputs.parameters.%s}}" .name }}"
                       {{ end }}
-                      if [ "$set_instance_id" == "true" ]; then
+                      if [ "{{ .set_instance_id }}" == "true" ]; then
                         INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
                         echo $INSTANCE_ID
                         instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "

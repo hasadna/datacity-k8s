@@ -1,6 +1,7 @@
 {{-
   include "cco.exec" (dict
   "name" "set-sysadmin"
+  "set_instance_id" "true"
   "parameters" (list
     (dict "name" "INSTANCE_NAME")
     (dict "name" "SYSADMIN_NAME")
