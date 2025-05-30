@@ -31,9 +31,7 @@ spec:
             arguments:
               parameters:
                 - name: exec_script
-                  valueFrom:
-                    expression: |
-                      `
+                  value: |
                       set_instance_id={{ "{{ inputs.parameters.set_instance_id | quote }}" }}
                       {{ range .parameters }}
                       {{ .name }}={{ printf "{{ inputs.parameters.%s | quote }}" .name }}
@@ -44,5 +42,4 @@ spec:
                         instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
                       fi
                       {{ .exec_script | nindent 20 }}
-                      `
 {{ end }}
