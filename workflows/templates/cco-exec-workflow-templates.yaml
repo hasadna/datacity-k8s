@@ -1,4 +1,4 @@
-{{ define "cco.exec" }}
+{{- range .Values.cco-exec-workflow-templates
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
@@ -38,4 +38,5 @@ spec:
                         instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
                       fi
                       {{ .exec_script | nindent 22 }}
-{{ end }}
+---
+{{- end }}

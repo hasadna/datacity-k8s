@@ -1,0 +1,26 @@
+cco-exec-workflow-templates:
+
+  - name: solr-reindex
+    set_instance_id: true
+    parameters:
+      - name: INSTANCE_NAME
+      - name: ARGS
+        default: "rebuild"
+    exec_script: |
+      exec $instance_id_ckan_exec ckan-paster --plugin=ckan search-index -c /etc/ckan/production.ini $ARGS
+
+  - name: set-sysadmin
+    set_instance_id: true
+    parameters:
+      - name: INSTANCE_NAME
+      - name: SYSADMIN_NAME
+      - name: NEW_SYSADMIN_PASSWORD
+        default: "-"
+      - name: NEW_SYSADMIN_EMAIL
+        default: "-"
+    exec_script: |
+      if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
+        exec $instance_id_ckan_exec ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
+      else
+        echo y | exec $instance_id_ckan_exec ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME email=$NEW_SYSADMIN_EMAIL password=$NEW_SYSADMIN_PASSWORD
+      fi
