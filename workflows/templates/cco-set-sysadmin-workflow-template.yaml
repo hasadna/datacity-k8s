@@ -34,7 +34,7 @@ spec:
                     NEW_SYSADMIN_PASSWORD={{ "{{inputs.parameters.NEW_SYSADMIN_PASSWORD}}" | quote }}
                     NEW_SYSADMIN_EMAIL={{ "{{inputs.parameters.NEW_SYSADMIN_EMAIL}}" | quote }}
                     INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
-                    echo $INSTANCE_ID $POD_NAME
+                    echo $INSTANCE_ID
                     if [ "${NEW_SYSADMIN_EMAIL}" == "-" ]; then
                       kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- ckan-paster --plugin=ckan sysadmin -c /etc/ckan/production.ini add $SYSADMIN_NAME
                     else
