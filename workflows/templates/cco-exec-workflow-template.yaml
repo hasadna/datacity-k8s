@@ -10,6 +10,7 @@ spec:
         default: "ckan-cloud-operator --help"
   templates:
     - name: cco-exec
+      serviceAccountName: dgp-operator-runner
       inputs:
         parameters:
           - name: exec_script
