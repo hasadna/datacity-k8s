@@ -76,8 +76,8 @@ spec:
           (
             {{ "{{inputs.parameters.exec_script}}" }}
           ) >> /tmp/cco-exec.log
-        outputs:
-          parameters:
-            - name: cco-exec-log
-              valueFrom:
-                path: /tmp/cco-exec.log
+      outputs:
+        parameters:
+          - name: cco-exec-log
+            valueFrom:
+              path: /tmp/cco-exec.log
