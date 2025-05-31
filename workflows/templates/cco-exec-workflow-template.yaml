@@ -17,7 +17,8 @@ spec:
             arguments:
               parameters:
                 - name: exec_script
-                  value: "{{workflow.parameters.exec_script}}"
+                  value: |
+                    {{ "{{workflow.parameters.exec_script}}" }}
       outputs:
         parameters:
           - name: result
