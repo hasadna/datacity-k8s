@@ -23,7 +23,7 @@ spec:
       dag:
         tasks:
           - name: cco-exec
-            templateFrom:
+            templateRef:
               name: cco-exec
               template: script
             arguments:
