@@ -103,3 +103,12 @@ ccoExecWorkflowTemplates:
           fi
       done
       exit $RES
+
+  - name: xloader
+    set_instance_id: true
+    parameters:
+      - name: INSTANCE_NAME
+      - name: XLOADER_ARGS
+        default: "submit all"
+    exec_script: |
+      exec $instance_id_ckan_exec ckan-paster --plugin=ckanext-xloader xloader -c /etc/ckan/production.ini $XLOADER_ARGS
