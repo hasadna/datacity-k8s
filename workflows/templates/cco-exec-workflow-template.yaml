@@ -10,6 +10,9 @@ spec:
         default: "ckan-cloud-operator --help"
   templates:
     - name: dag
+      inputs:
+        parameters:
+          - name: exec_script
       dag:
         tasks:
           - name: script
