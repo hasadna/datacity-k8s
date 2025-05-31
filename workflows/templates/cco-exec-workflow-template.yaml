@@ -75,7 +75,9 @@ spec:
           rm -f /tmp/cco-exec.log
           (
             {{ "{{inputs.parameters.exec_script}}" }}
-          ) >> /tmp/cco-exec.log
+          ) 2>&1 >> /tmp/cco-exec.log
+          rm -f /tmp/cco-exec.log
+          echo "Execution completed successfully" >> /tmp/cco-exec.log
       outputs:
         parameters:
           - name: cco-exec-log
