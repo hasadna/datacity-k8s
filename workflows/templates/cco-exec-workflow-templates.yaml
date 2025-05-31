@@ -4,7 +4,7 @@ kind: WorkflowTemplate
 metadata:
   name: cco-{{ .name }}
 spec:
-  entrypoint: cco-{{ .name }}
+  entrypoint: cco-exec
   arguments:
     parameters:
       {{- range .parameters }}
@@ -14,30 +14,31 @@ spec:
         {{- end }}
       {{- end }}
   templates:
-    - name: cco-{{ .name }}
+    - name: cco-exec
       inputs:
         parameters:
           {{- range .parameters }}
           - name: {{ .name | quote }}
           {{- end }}
-      steps:
-        - - name: cco-{{ .name }}
-            templateRef:
+      dag:
+        tasks:
+          - name: cco-exec
+            templateFrom:
               name: cco-exec
-              template: cco-exec
+              template: script
             arguments:
               parameters:
                 - name: exec_script
                   value: |
-                      {{ range .parameters }}
-                      {{ .name }}="{{ printf "{{inputs.parameters.%s}}" .name }}"
-                      {{ end }}
-                      if [ "{{ .set_instance_id }}" == "true" ]; then
-                        INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
-                        echo $INSTANCE_ID
-                        instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
-                      fi
-                      {{ .exec_script | nindent 22 }}
+                    {{ range .parameters }}
+                    {{ .name }}="{{ printf "{{inputs.parameters.%s}}" .name }}"
+                    {{ end }}
+                    if [ "{{ .set_instance_id }}" == "true" ]; then
+                      INSTANCE_ID=$(kubectl -n ckan-cloud get ckancloudckaninstancename ckan-cloud-ckaninstancename-$INSTANCE_NAME -o json | jq -r '.spec["latest-instance-id"]')
+                      echo $INSTANCE_ID
+                      instance_id_ckan_exec="kubectl -n $INSTANCE_ID exec deploy/ckan -c ckan -- "
+                    fi
+                    {{ .exec_script | nindent 22 }}
 ---
 {{- if .cronSchedule }}
 apiVersion: argoproj.io/v1alpha1

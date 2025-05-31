@@ -19,11 +19,6 @@ spec:
                 - name: exec_script
                   value: |
                     {{ "{{workflow.parameters.exec_script}}" }}
-      outputs:
-        parameters:
-          - name: result
-            value: |
-              {{ "{{tasks.script.outputs.result}}" }}
     - name: script
       serviceAccountName: dgp-operator-runner
       inputs:
