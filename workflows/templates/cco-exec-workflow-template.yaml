@@ -3,13 +3,23 @@ kind: WorkflowTemplate
 metadata:
   name: cco-exec
 spec:
-  entrypoint: cco-exec
+  entrypoint: dag
   arguments:
     parameters:
       - name: exec_script
         default: "ckan-cloud-operator --help"
   templates:
-    - name: cco-exec
+    - name: dag
+      dag:
+        tasks:
+          - name: script
+            template: script
+      outputs:
+        parameters:
+          - name: result
+            value: |
+              {{ "{{tasks.script.outputs.result}}" }}
+    - name: script
       serviceAccountName: dgp-operator-runner
       inputs:
         parameters:
@@ -56,9 +66,4 @@ spec:
           gcloud config set project datacity-k8s
           gcloud container clusters get-credentials datacity --zone europe-west1-d
           helm init -c
-          (
-            {{ "{{inputs.parameters.exec_script}}" }}
-          ) 2>&1
-      outputs:
-        result: |
-          {{ "{{outputs.parameters.result}}" }}
+          {{ "{{inputs.parameters.exec_script}}" }}
