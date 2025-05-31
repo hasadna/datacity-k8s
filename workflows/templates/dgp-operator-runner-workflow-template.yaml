@@ -13,21 +13,13 @@ spec:
           - name: config_json
       container:
         image: rancher/kubectl:v1.19.15@sha256:fd3d9b88a080a498976fdb5303e22a5217ef509b1e06b1256c1a8277c779ba67
+        command: ["bash", "-c"]
         args:
-          - -n
-          - datacity
-          - exec
-          - -it
-          - -c
-          - server
-          - deployment/ckan-dgp
-          - --
-          - bash
-          - -c
           - |
             set -euo pipefail
-            python3 -m datacity_ckan_dgp.operators.{{ "{{inputs.parameters.operator}}" }} '{{ "{{inputs.parameters.config_json}}" }}' \
-              2>&1 | tee /tmp/log.txt
+            kubectl -n datacity exec -it -c server deployment/ckan-dgp -- \
+              python3 -m datacity_ckan_dgp.operators.{{ "{{inputs.parameters.operator}}" }} '{{ "{{inputs.parameters.config_json}}" }}' \
+                2>&1 | tee /tmp/log.txt
             echo "Execution completed successfully" 2>&1 | tee /tmp/log.txt
       outputs:
         parameters:
