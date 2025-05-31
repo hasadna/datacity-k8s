@@ -61,9 +61,16 @@ spec:
             mountPath: /datacity-k8s
         source: |
           set -euo pipefail
+          init() {
+            trap "cat /tmp/cco-exec-init.log; echo; echo cco-exec init failed; exit 1" ERR
+            (
+              gcloud auth activate-service-account --key-file=/root/service_account_key.json
+              gcloud config set project datacity-k8s
+              gcloud container clusters get-credentials datacity --zone europe-west1-d
+              helm init -c
+            ) 2>&1 > /tmp/cco-exec-init.log
+            trap - ERR
+          }
           cd /datacity-k8s
-          gcloud auth activate-service-account --key-file=/root/service_account_key.json
-          gcloud config set project datacity-k8s
-          gcloud container clusters get-credentials datacity --zone europe-west1-d
-          helm init -c
+          init
           {{ "{{inputs.parameters.exec_script}}" }}
