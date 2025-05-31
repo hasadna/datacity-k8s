@@ -12,8 +12,8 @@ spec:
           - name: operator
           - name: config_json
       container:
-        image: rancher/kubectl:v1.19.15@sha256:fd3d9b88a080a498976fdb5303e22a5217ef509b1e06b1256c1a8277c779ba67
-        command: ["sh", "-c"]
+        image: ghcr.io/hasadna/hasadna-k8s/hasadna-k8s:4acd747fb77dfa1f9210c50ecae51bc89500bfad
+        command: ["bash", "-c"]
         args:
           - |
             set -euo pipefail
