@@ -22,9 +22,9 @@ spec:
           {{- end }}
       outputs:
         parameters:
-          - name: cco-exec-log
+          - name: log
             valueFrom:
-              parameter: "{{ "{{tasks.cco-exec.outputs.parameters.cco-exec-log}}" }}"
+              parameter: "{{ "{{tasks.cco-exec.outputs.parameters.log}}" }}"
       dag:
         tasks:
           - name: cco-exec
