@@ -67,13 +67,13 @@ spec:
             gcloud config set project datacity-k8s
             gcloud container clusters get-credentials datacity --zone europe-west1-d
             helm init -c
-          ) &> /tmp/cco-exec.log
+          ) 2>&1 | tee /tmp/cco-exec.log
           cat <<'EOF' > /tmp/exec_script.sh
           {{ "{{inputs.parameters.exec_script}}" }}
           EOF
           chmod +x /tmp/exec_script.sh
-          /tmp/exec_script.sh &> /tmp/cco-exec.log
-          echo "Execution completed successfully" > /tmp/cco-exec.log
+          /tmp/exec_script.sh 2>&1 | tee /tmp/cco-exec.log
+          echo "Execution completed successfully" 2>&1 | tee /tmp/cco-exec.log
       outputs:
         parameters:
           - name: cco-exec-log
