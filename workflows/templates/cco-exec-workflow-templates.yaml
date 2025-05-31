@@ -20,11 +20,11 @@ spec:
           {{- range .parameters }}
           - name: {{ .name | quote }}
           {{- end }}
-      outputs:
-        parameters:
-          - name: log
-            valueFrom:
-              parameter: "{{ "{{tasks.cco-exec.outputs.parameters.log}}" }}"
+#      outputs:
+#        parameters:
+#          - name: log
+#            valueFrom:
+#              parameter: "{{ "{{tasks.cco-exec.outputs.parameters.log}}" }}"
       dag:
         tasks:
           - name: cco-exec

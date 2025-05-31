@@ -17,11 +17,6 @@ spec:
         key: datacity-concurrency
   templates:
     - name: continuous-processing-task
-      outputs:
-        parameters:
-          - name: log
-            valueFrom:
-              parameter: "{{ "{{steps.call-template.outputs.parameters.log}}" }}"
       synchronization:
         mutex:
           name: instance-{{ $instance }}

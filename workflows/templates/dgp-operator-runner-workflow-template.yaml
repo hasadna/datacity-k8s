@@ -17,7 +17,7 @@ spec:
         args:
           - |
             set -euo pipefail
-            kubectl -n datacity exec -it -c server deployment/ckan-dgp -- \
+            kubectl -n datacity exec -c server deployment/ckan-dgp -- \
               python3 -m datacity_ckan_dgp.operators.{{ "{{inputs.parameters.operator}}" }} '{{ "{{inputs.parameters.config_json}}" }}' \
                 2>&1 | tee /tmp/log.txt
             echo "Execution completed successfully" 2>&1 | tee /tmp/log.txt
