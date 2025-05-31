@@ -32,6 +32,8 @@ spec:
           emptyDir: {}
         - name: datacity-k8s
           emptyDir: {}
+        - name: tmp
+          emptyDir: {}
       initContainers:
         - name: cco-init
           image: datacity/ckan-cloud-operator
@@ -59,18 +61,23 @@ spec:
             mountPath: /root
           - name: datacity-k8s
             mountPath: /datacity-k8s
+          - name: tmp
+            mountPath: /tmp
         source: |
           set -euo pipefail
-          init() {
-            trap "cat /tmp/cco-exec-init.log; echo; echo cco-exec init failed; exit 1" ERR
-            (
-              gcloud auth activate-service-account --key-file=/root/service_account_key.json
-              gcloud config set project datacity-k8s
-              gcloud container clusters get-credentials datacity --zone europe-west1-d
-              helm init -c
-            ) 2>&1 > /tmp/cco-exec-init.log
-            trap - ERR
-          }
           cd /datacity-k8s
-          init
-          {{ "{{inputs.parameters.exec_script}}" }}
+          (
+            gcloud auth activate-service-account --key-file=/root/service_account_key.json
+            gcloud config set project datacity-k8s
+            gcloud container clusters get-credentials datacity --zone europe-west1-d
+            helm init -c
+          ) 2>&1 >> /tmp/cco-exec.log
+          rm -f /tmp/cco-exec.log
+          (
+            {{ "{{inputs.parameters.exec_script}}" }}
+          ) >> /tmp/cco-exec.log
+        outputs:
+          parameters:
+            - name: cco-exec-log
+              valueFrom:
+                path: /tmp/cco-exec.log
