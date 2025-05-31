@@ -10,13 +10,14 @@ spec:
         default: "ckan-cloud-operator --help"
   templates:
     - name: dag
-      inputs:
-        parameters:
-          - name: exec_script
       dag:
         tasks:
           - name: script
             template: script
+            arguments:
+              parameters:
+                - name: exec_script
+                  value: "{{workflow.parameters.exec_script}}"
       outputs:
         parameters:
           - name: result
