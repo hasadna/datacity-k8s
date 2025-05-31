@@ -32,8 +32,6 @@ spec:
           emptyDir: {}
         - name: datacity-k8s
           emptyDir: {}
-        - name: tmp
-          emptyDir: {}
       initContainers:
         - name: cco-init
           image: datacity/ckan-cloud-operator
@@ -61,8 +59,6 @@ spec:
             mountPath: /root
           - name: datacity-k8s
             mountPath: /datacity-k8s
-          - name: tmp
-            mountPath: /tmp
         source: |
           set -euo pipefail
           cd /datacity-k8s
