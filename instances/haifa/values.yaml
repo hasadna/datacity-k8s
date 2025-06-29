@@ -49,7 +49,7 @@ ckanOperatorImage: "datacity/cca-operator:c1466d57370ceba7b23dfe4ce7a74f533bdbe9
 replicas: 1
 nginxReplicas: 1
 ckanGunicornWorkers: 4
-ckanResources: '{"requests": {"cpu": "0.2", "memory": "800Mi"}, "limits": {"memory": "2Gi"}}'
+ckanResources: '{"requests": {"cpu": "0.7", "memory": "800Mi"}, "limits": {"memory": "2Gi"}}'
 nginxResources: '{"requests": {"cpu": "0.05", "memory": "300Mi"}, "limits": {"memory": "800Mi"}}'
 ckanJobsDbResources: '{"requests": {"cpu": "0.02", "memory": "50Mi"}, "limits": {"memory": "200Mi"}}'
 ckanJobsResources: '{"requests": {"cpu": "0.05", "memory": "400Mi"}, "limits": {"memory": "1500Mi"}}'
