@@ -15,24 +15,26 @@ skipCreateCkanAdmin: true
 ### Routing configuration ###
 
 skipRoute: true
-siteUrl: https://datacity.jerusalem.muni.il
+siteUrl: https://jerusalem.datacity.org.il
 ingresses:
   - name: jerusalem-datacity-org-il
     ckanService: true
     # maxBodySize: "1000M"
+    extraConfig: |
+      cert-manager.io/cluster-issuer: letsencrypt
     tls: true
     rules:
       - host: jerusalem.datacity.org.il
         # serviceName:
         # servicePort:
-  - name: datacity-jerusalem-muni-il
-    ckanService: true
-    # maxBodySize: "1000M"
-    tls: true
-    rules:
-      - host: datacity.jerusalem.muni.il
-        # serviceName:
-        # servicePort:
+#  - name: datacity-jerusalem-muni-il
+#    ckanService: true
+#    # maxBodySize: "1000M"
+#    tls: true
+#    rules:
+#      - host: datacity.jerusalem.muni.il
+#        # serviceName:
+#        # servicePort:
 
 ### CronJobs ###
 
