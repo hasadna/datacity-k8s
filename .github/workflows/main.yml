@@ -1,26 +1,27 @@
-name: CI
-on:
-  push:
-jobs:
-  build:
-    runs-on: ubuntu-20.04
-    steps:
-    - uses: actions/checkout@v2
-    - env:
-        JENKINS_USER: ${{ secrets.JENKINS_USER }}
-        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
-        JENKINS_UPDATE_INSTANCE_URL: ${{ secrets.JENKINS_UPDATE_INSTANCE_URL }}
-      run: |
-        if [ "${GITHUB_REF}" == "refs/heads/master" ]; then
-          LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s") &&\
-          cd instances &&\
-          for INSTANCE_NAME in `ls --hide=*.txt --hide=*.json --hide=*.disabled`; do
-            if echo "${LAST_COMMIT_MSG}" | grep -- --update-instances >/dev/null && echo "${LAST_COMMIT_MSG}" | grep $INSTANCE_NAME >/dev/null; then
-              echo "updating instance: $INSTANCE_NAME (requested manually using --update-instances)" &&\
-              curl --user "${JENKINS_USER}:${JENKINS_TOKEN}" -X POST "${JENKINS_UPDATE_INSTANCE_URL}?INSTANCE_NAME=${INSTANCE_NAME}"
-            elif echo "${LAST_COMMIT_MSG}" | grep "automatic update of ckan-cloud-docker" > /dev/null && cat ${INSTANCE_NAME}/values.yaml | grep 'updateInstanceOnImageTagChange: true' > /dev/null; then
-              echo "updating instance: $INSTANCE_NAME (auto-update)" &&\
-              curl --user "${JENKINS_USER}:${JENKINS_TOKEN}" -X POST "${JENKINS_UPDATE_INSTANCE_URL}?INSTANCE_NAME=${INSTANCE_NAME}"
-            fi
-          done
-        fi
+# TODO: update to run argo workflow
+#name: CI
+#on:
+#  push:
+#jobs:
+#  build:
+#    runs-on: ubuntu-20.04
+#    steps:
+#    - uses: actions/checkout@v2
+#    - env:
+#        JENKINS_USER: ${{ secrets.JENKINS_USER }}
+#        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
+#        JENKINS_UPDATE_INSTANCE_URL: ${{ secrets.JENKINS_UPDATE_INSTANCE_URL }}
+#      run: |
+#        if [ "${GITHUB_REF}" == "refs/heads/master" ]; then
+#          LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s") &&\
+#          cd instances &&\
+#          for INSTANCE_NAME in `ls --hide=*.txt --hide=*.json --hide=*.disabled`; do
+#            if echo "${LAST_COMMIT_MSG}" | grep -- --update-instances >/dev/null && echo "${LAST_COMMIT_MSG}" | grep $INSTANCE_NAME >/dev/null; then
+#              echo "updating instance: $INSTANCE_NAME (requested manually using --update-instances)" &&\
+#              curl --user "${JENKINS_USER}:${JENKINS_TOKEN}" -X POST "${JENKINS_UPDATE_INSTANCE_URL}?INSTANCE_NAME=${INSTANCE_NAME}"
+#            elif echo "${LAST_COMMIT_MSG}" | grep "automatic update of ckan-cloud-docker" > /dev/null && cat ${INSTANCE_NAME}/values.yaml | grep 'updateInstanceOnImageTagChange: true' > /dev/null; then
+#              echo "updating instance: $INSTANCE_NAME (auto-update)" &&\
+#              curl --user "${JENKINS_USER}:${JENKINS_TOKEN}" -X POST "${JENKINS_UPDATE_INSTANCE_URL}?INSTANCE_NAME=${INSTANCE_NAME}"
+#            fi
+#          done
+#        fi
