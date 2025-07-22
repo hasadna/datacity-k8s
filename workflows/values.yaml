@@ -231,3 +231,19 @@ gisFetcherInstanceOrganizationWorkflows:
         gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/10
         target_package_id: surveymainfeatures
         schedule: "45 7 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-surveysites
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/13
+        target_package_id: surveysites
+        schedule: "45 8 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-surveyissues
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/11
+        target_package_id: surveyissues
+        schedule: "45 9 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-surveyvegetation
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/14
+        target_package_id: surveyvegetation
+        schedule: "45 10 * * *"  # python3 workflows/bin/get_schedule.py daily
+      - name_suffix: haifa-surveypublic
+        gis_url: https://gisserver.haifa.muni.il/arcgiswebadaptor/rest/services/PublicSite/Haifa_Env_Public/MapServer/12
+        target_package_id: surveypublic
+        schedule: "45 11 * * *"  # python3 workflows/bin/get_schedule.py daily
