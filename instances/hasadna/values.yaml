@@ -60,8 +60,7 @@ terminationGracePeriodSeconds: 30
 
 ### Core CKAN settings ###
 
-ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view datacity scheming_datasets scheming_groups
-  # pages
+ckanPlugins: stats text_view image_view recline_view datastore xloader resource_proxy s3filestore geojson_view datacity scheming_datasets scheming_groups pages
 ckanDefaultViews: image_view text_view recline_view geojson_view
 displayTimezone: Asia/Jerusalem
 favIcon: /base/images/ckan.ico
