@@ -143,7 +143,7 @@ authAnon_create_dataset: "false"
 authCreate_dataset_if_not_in_organization: "true"
 authCreate_unowned_dataset: "false"
 authCreate_user_via_api: "false"
-authCreate_user_via_web: "true"
+authCreate_user_via_web: "false"
 authRoles_that_cascade_to_sub_groups: admin
 authUser_create_groups: "false"
 authUser_create_organizations: "false"
