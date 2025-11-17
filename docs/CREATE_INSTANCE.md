@@ -30,7 +30,7 @@ See UPDATE_INSTANCE.md to deploy
 
 ## Create an admin user
 
-Run the jenkins job `set-sysadmin` and create a user named `admin`, email can be `admin@localhost`
+Run the argo workflow `cco-set-sysadmin` and create a user named `admin`, email can be `admin@localhost`
 
 Store the password in Hasadna's vault under `Projects/datacity/sites/INSTANCE_NAME/ckan-admin`: `username` / `password`
 

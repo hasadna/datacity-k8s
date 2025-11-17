@@ -18,7 +18,7 @@ While deploying check the cpu/ram usage and deployment progress to ensure the in
 
 ## Deploy / update existing instance
 
-Run the Argo Workflows template `cco-update-instance` under `datacity` namespace
+Run the Argo Workflows template `cco-update-instance` under `datacity` namespace with recreate helm = true.
 
 If the job failed, try to re-run a couple of time before panicking
 
