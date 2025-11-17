@@ -18,7 +18,7 @@ While deploying check the cpu/ram usage and deployment progress to ensure the in
 
 ## Deploy / update existing instance
 
-Run the Jenkins job `update-instance`
+Run the Argo Workflows template `cco-update-instance` under `datacity` namespace
 
 If the job failed, try to re-run a couple of time before panicking
 

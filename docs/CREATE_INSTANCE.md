@@ -16,8 +16,13 @@ See hasadna/nasadna-iac repo for details
 
 ## Create instance
 
-Run the Jenkins job `create-instance`
-  * set the values for S3_FILESTORE_AWS_ACCESS_KEY_ID and S3_FILESTORE_AWS_SECRET_ACCESS_KEY from vault path `Projects/datacity/sites/INSTANCE_NAME/storage-iac`
+Go to https://argo.hasadna.org.il/ login via SSO
+
+Workflow Templates -> namespace: `datacity` -> `cco-create-instance` -> Submit with following values:
+
+* `INSTANCE_NAME` - the instance name
+* `S3_FILESTORE_AWS_BUCKET_NAME` - `datacity-INSTANCE_NAME`
+* `S3_FILESTORE_AWS_ACCESS_KEY_ID` / `S3_FILESTORE_AWS_SECRET_ACCESS_KEY` - from vault path `Projects/datacity/sites/INSTANCE_NAME/storage-iac`
 
 ## Update instance
 

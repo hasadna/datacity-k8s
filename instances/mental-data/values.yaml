@@ -24,7 +24,7 @@ ingresses:
       cert-manager.io/cluster-issuer: ""
     tls: false
     rules:
-      - host: https://mental-data.datacity.org.il
+      - host: mental-data.datacity.org.il
 
 ### CronJobs ###
 
