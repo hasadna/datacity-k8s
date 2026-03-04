@@ -117,6 +117,14 @@ genericFetcherInstanceOrganizationWorkflows:
         source_filter:
           MetropolinName: חיפה
 
+  hasadna:
+    budgetkey:
+      - name_suffix: hasadna-budgetkey-tamat-facilities
+        schedule: "5 22 * * *"  # python3 workflows/bin/get_schedule.py daily
+        source_url: https://next.obudget.org/datapackages/facilities/tamat/tamat-facilities.csv
+        target_package_id: tamat-facilities
+        target_resource_format: CSV
+
 continuousProcessingTasks:
   - xlsx
   - geojson
