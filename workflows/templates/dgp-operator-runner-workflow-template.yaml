@@ -11,8 +11,12 @@ spec:
         parameters:
           - name: operator
           - name: config_json
-          - name: resourcesJson
-            default: "{}"
+          - name: resources_request_cpu
+            default: "250m"
+          - name: resources_request_memory
+            default: "512Mi"
+          - name: resources_limit_memory
+            default: "1Gi"
       container:
         image: ghcr.io/hasadna/hasadna-k8s/hasadna-k8s:4acd747fb77dfa1f9210c50ecae51bc89500bfad
         command: ["bash", "-c"]
@@ -23,7 +27,12 @@ spec:
               python3 -m datacity_ckan_dgp.operators.{{ "{{inputs.parameters.operator}}" }} '{{ "{{inputs.parameters.config_json}}" }}' \
                 2>&1 | tee -a /tmp/log.txt
             echo "Execution completed successfully" 2>&1 | tee -a /tmp/log.txt
-        resources: {{ "{{=fromJson(inputs.parameters.resources)}}" }}
+        resources:
+          requests:
+            cpu: '{{ "{{inputs.parameters.resources_request_cpu}}" }}'
+            memory: '{{ "{{inputs.parameters.resources_request_memory}}" }}'
+          limits:
+            memory: '{{ "{{inputs.parameters.resources_limit_memory}}" }}'
       outputs:
         parameters:
           - name: log
