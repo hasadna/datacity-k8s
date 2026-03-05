@@ -11,15 +11,6 @@ spec:
         parameters:
           - name: operator
           - name: config_json
-          - name: resources_request_cpu
-            value: "250"
-            default: "250"
-          - name: resources_request_memory
-            value: "512"
-            default: "512"
-          - name: resources_limit_memory
-            value: "1024"
-            default: "1024"
       container:
         image: ghcr.io/hasadna/hasadna-k8s/hasadna-k8s:4acd747fb77dfa1f9210c50ecae51bc89500bfad
         command: ["bash", "-c"]
@@ -32,10 +23,10 @@ spec:
             echo "Execution completed successfully" 2>&1 | tee -a /tmp/log.txt
         resources:
           requests:
-            cpu: "{{ "{{inputs.parameters.resources_request_cpu}}" }}m"
-            memory: "{{ "{{inputs.parameters.resources_request_memory}}" }}Mi"
+            cpu: "250m"
+            memory: "512Mi"
           limits:
-            memory: "{{ "{{inputs.parameters.resources_limit_memory}}" }}Mi"
+            memory: "1Gi"
       outputs:
         parameters:
           - name: log
