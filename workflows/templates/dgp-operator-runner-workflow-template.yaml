@@ -23,7 +23,7 @@ spec:
               python3 -m datacity_ckan_dgp.operators.{{ "{{inputs.parameters.operator}}" }} '{{ "{{inputs.parameters.config_json}}" }}' \
                 2>&1 | tee -a /tmp/log.txt
             echo "Execution completed successfully" 2>&1 | tee -a /tmp/log.txt
-        resources: {{ `{{inputs.parameters.resourcesJson}}` }}
+        resources: {{ "{{inputs.parameters.resourcesJson}}" }}
       outputs:
         parameters:
           - name: log
