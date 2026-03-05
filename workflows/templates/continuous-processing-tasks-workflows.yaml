@@ -35,6 +35,8 @@ spec:
                       "instance_name": {{ $instance | quote }},
                       "task": {{ $task | quote }}
                     }
+                - name: resourcesJson
+                  value: {{ `{"requests": {"cpu": "500m", "memory": "1Gi"}, "limits": {"memory": "2Gi"}}` | quote }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
