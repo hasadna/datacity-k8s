@@ -12,11 +12,11 @@ spec:
           - name: operator
           - name: config_json
           - name: resources_request_cpu
-            default: "250m"
+            value: "250m"
           - name: resources_request_memory
-            default: "512Mi"
+            value: "512Mi"
           - name: resources_limit_memory
-            default: "1Gi"
+            value: "1Gi"
       container:
         image: ghcr.io/hasadna/hasadna-k8s/hasadna-k8s:4acd747fb77dfa1f9210c50ecae51bc89500bfad
         command: ["bash", "-c"]
